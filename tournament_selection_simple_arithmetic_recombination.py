@@ -18,6 +18,7 @@ from math import fabs,sqrt
 import glob, os
 import matplotlib.pyplot as plt
 
+np.random.seed(10)
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -33,7 +34,7 @@ n_hidden_neurons = 10
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
-                  enemies=[4],
+                  enemies=[7],
                   playermode="ai",
                   player_controller=player_controller(n_hidden_neurons),
                   enemymode="static",
@@ -60,11 +61,11 @@ n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
 
 dom_u = 1               # Max weight for neural network
 dom_l = -1              # Min weight for neural network
-npop = 50               # Population size
-gens = 10               # number of generations
-kill_perc = 0.5         # percentage of population killed every generation (as decimal)
-offspring_perc = 0.35   # percentage of offspring every generation (as decimal)
-TSP_perc = 0.1          # Percentage of population taking part in tournamnet selection (as decimal)
+npop = 100               # Population size
+gens = 10                # number of generations
+kill_perc = 0.25         # percentage of population killed every generation (as decimal)
+offspring_perc = 0.25    # percentage of offspring every generation (as decimal)
+TSP_perc = 0.07           # Percentage of population taking part in tournamnet selection (as decimal)
 
 # Create Populations, one individual is one row in a matrix
 population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
@@ -79,11 +80,11 @@ def simulation(env,x):
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env,y), x)))
 
-# kills worst 25% of population
+# kills worst x% of population
 def kill_worst_x_percent(population, fit_pop, kill_perc):
-    fourth = int(len(fit_pop)*kill_perc)
+    fraction = int(len(fit_pop)*kill_perc)
     
-    for i in range(fourth):
+    for i in range(fraction):
         # indicies sorted from worst to best solution
         index_sorted = np.argsort(fit_pop)
         # index of worst solution
@@ -102,7 +103,8 @@ def tournament_selection(population, fit_pop, k):
     
     for i in range(k):
         rnd_idx = np.random.randint(0, max_idx)
-        parent_idx = rnd_idx if fit_pop[rnd_idx] > fit_pop[parent_idx] else parent_idx
+        if fit_pop[rnd_idx] > fit_pop[parent_idx]:
+            parent_idx = rnd_idx
     
     parent = population[parent_idx][:]
     
@@ -126,7 +128,7 @@ def simple_arithmetic_recombination(parent_1, parent_2):
     
 # store values for initial population
 
-fit_pop = evaluate(population)   
+fit_pop = evaluate(population)  
 pop_size = [len(fit_pop)]
 best_solution = [np.argmax(fit_pop)]
 fitness_of_best_solution = [fit_pop[best_solution][0]]
@@ -141,16 +143,18 @@ for iteration in range(gens):
     # create offspring using tournamnet selection
     num_offspring = int(npop*offspring_perc)
     num_offspring = num_offspring if num_offspring % 2 == 0 else num_offspring + 1
+
     
     # create 1 random individual as a base for children matrix
-    children = np.random.uniform(dom_l, dom_u, (1, n_vars))
+    children = np.zeros(n_vars)
     
     # create num_offspring offspring 
     for i in range(int(num_offspring/2)):
         
         # find parents using tournamnet selection
-        parent_1 = tournament_selection(population, fit_pop, int(npop*TSP_perc))
-        parent_2 = tournament_selection(population, fit_pop, int(npop*TSP_perc))
+        k = int(TSP_perc*len(fit_pop))
+        parent_1 = tournament_selection(population, fit_pop, k)
+        parent_2 = tournament_selection(population, fit_pop, k)
         
         # create children using simple arithmetic recombination
         child_1, child_2 = simple_arithmetic_recombination(parent_1, parent_2)
@@ -159,14 +163,8 @@ for iteration in range(gens):
         children = np.vstack([children, child_1])
         children = np.vstack([children, child_2])
     
-    population = np.vstack([population, children])
-    
-    # to keep population size constant fill up population to npop with random indiividuals
-    num_rows, num_cols = population.shape
-    new_rows = npop - num_rows
-    new_random = np.random.uniform(dom_l, dom_u, (new_rows, n_vars))
-    population = np.vstack([population, new_random])
-    
+    population = np.vstack([population, children[1:][:]])
+
     
     # evaluate whole population and store values
     fit_pop = evaluate(population)
