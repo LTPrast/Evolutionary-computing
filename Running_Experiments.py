@@ -18,6 +18,10 @@ from math import fabs,sqrt
 import glob, os
 import matplotlib.pyplot as plt
 
+from parent_selection_methods import *
+from mutation_recombination_methods import *
+from survival_methods import *
+
 np.random.seed(10)
 
 # choose this for not using visuals and thus making experiments faster
@@ -34,7 +38,7 @@ n_hidden_neurons = 10
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
-                  enemies=[7],
+                  enemies=[2],
                   playermode="ai",
                   player_controller=player_controller(n_hidden_neurons),
                   enemymode="static",
@@ -44,11 +48,6 @@ env = Environment(experiment_name=experiment_name,
 # default environment fitness is assumed for experiment
 
 env.state_to_log() # checks environment state
-
-
-####   Optimization for controller solution (best genotype-weights for phenotype-network): Ganetic Algorihm    ###
-
-ini = time.time()  # sets time marker
 
 
 # genetic algorithm params
@@ -67,6 +66,7 @@ kill_perc = 0.25         # percentage of population killed every generation (as 
 offspring_perc = 0.25    # percentage of offspring every generation (as decimal)
 TSP_perc = 0.07           # Percentage of population taking part in tournamnet selection (as decimal)
 
+
 # Create Populations, one individual is one row in a matrix
 population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
 # evaluation
@@ -80,54 +80,8 @@ def simulation(env,x):
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env,y), x)))
 
-# kills worst x% of population
-def kill_worst_x_percent(population, fit_pop, kill_perc):
-    fraction = int(len(fit_pop)*kill_perc)
-    
-    for i in range(fraction):
-        # indicies sorted from worst to best solution
-        index_sorted = np.argsort(fit_pop)
-        # index of worst solution
-        index = index_sorted[0]
-        
-        # delete that solution and it's fitness
-        population = np.delete(population, index ,0)
-        fit_pop = np.delete(fit_pop, index)
-    
-    return population, fit_pop
-
-def tournament_selection(population, fit_pop, k):
-    # pick random index of population
-    max_idx = len(fit_pop)
-    parent_idx = np.random.randint(0, max_idx)
-    
-    for i in range(k):
-        rnd_idx = np.random.randint(0, max_idx)
-        if fit_pop[rnd_idx] > fit_pop[parent_idx]:
-            parent_idx = rnd_idx
-    
-    parent = population[parent_idx][:]
-    
-    return parent
-
-# create 2 offspring from 2 parents
-def simple_arithmetic_recombination(parent_1, parent_2):
-        
-    # pick random crossover point
-    k = np.random.randint(0, len(parent_1))
-    
-    # find average of parents after point k
-    part_2 = np.mean( np.array([ parent_1[k:], parent_2[k:] ]), axis=0 )
-    
-    child_1 = np.append(parent_1[:k], part_2)
-    child_2 = np.append(parent_2[:k], part_2)
-    
-    return child_1, child_2 
-
-
     
 # store values for initial population
-
 fit_pop = evaluate(population)  
 pop_size = [len(fit_pop)]
 best_solution = [np.argmax(fit_pop)]
