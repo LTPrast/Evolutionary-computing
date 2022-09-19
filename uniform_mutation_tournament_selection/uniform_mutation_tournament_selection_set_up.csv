@@ -1,0 +1,2 @@
+,Population_size,Generations,Killing_percentage,Offspring_percentage,Tournamnet_selection_percentage,Gene_mutation_probability,Enemies,Level,Iterations:
+0,100,20,0.5,0.5,0.25,0.2,4,2,15
