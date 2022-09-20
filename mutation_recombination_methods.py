@@ -30,6 +30,9 @@ def uniform_mutation(parent, sigma):
     """
     This function takes a parent and a positionwise mutation probability sigma
     as inputs and returns a single offspring.
+    
+    This function can also be used to add mutation to an offspring which has
+    undergone recombination.
     """
     child = np.zeros(len(parent))
     
@@ -43,6 +46,7 @@ def uniform_mutation(parent, sigma):
             child[i] = parent[i]
             
     return child
+
 
 def self_adaptive_mutation(parent):
     child = np.zeros(len(parent))
