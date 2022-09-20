@@ -26,15 +26,12 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-TSP_perc = 0.15         # Percentage of population taking part in tournamnet selection (as decimal)
-sigma = 0.1             # gene mutation probability 
-
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     
-experiment_name = 'mutation_probability_'+str(sigma)+'_tournament_size_'+str(TSP_perc)
+experiment_name = "experiment_name"
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
     
@@ -83,6 +80,8 @@ npop = 100              # Population size
 gens = 10               # number of generations
 kill_perc = 0.25        # percentage of population killed every generation (as decimal)
 offspring_perc = 0.25   # percentage of offspring every generation (as decimal)
+TSP_perc = 0.15         # Percentage of population taking part in tournamnet selection (as decimal)
+sigma = 0.1             # gene mutation probability 
     
 #################### PREFORM EXPERIMENT #####################################
 
