@@ -26,16 +26,12 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-tournament_size = 10    # Number of individuals taking part in tournamnet selection 
-sigma = 0.1             # gene mutation probability 
-dist_std = 0.5          # mean of distribution to draw sizes for gene mutation
-
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     
-experiment_name = 'mutation_probability_'+str(sigma)+'_tournament_size_'+str(tournament_size)+"_gaussian_"+str(dist_std)
+experiment_name = 'PLEASE_INSERT_EXPERIMENT_NAME'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
     
@@ -80,10 +76,14 @@ n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
 
 dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
+dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 100                              # Population size
 gens = 10                               # number of generations
-individuals_deleted = 24                # number of individuals killed every generation
+individuals_deleted = 20                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
+tournament_size = 10                    # Number of individuals taking part in tournamnet selection 
+sigma = 0.1                             # gene mutation probability 
+
     
 #################### PREFORM EXPERIMENT #####################################
 

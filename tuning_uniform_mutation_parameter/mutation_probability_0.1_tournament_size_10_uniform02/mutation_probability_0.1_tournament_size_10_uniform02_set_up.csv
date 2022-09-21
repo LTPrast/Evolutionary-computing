@@ -1,0 +1,2 @@
+,Population size,Generations,Killed per generation,Offspring number,Tournament size,Gene mutation probability,Enemies,Level,Iterations:,Experiment Name,Execution Time
+0,100,10,24,24,10,0.1,4,2,10,mutation_probability_0.1_tournament_size_10_uniform02,1.8860053473711014
