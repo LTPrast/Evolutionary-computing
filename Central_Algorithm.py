@@ -80,7 +80,7 @@ dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
-gens = 10                               # number of generations
+gens = 20                               # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
 
