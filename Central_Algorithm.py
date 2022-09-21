@@ -25,13 +25,15 @@ from mutation_recombination_methods import *
 from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
+tournament_size = 10                    # Number of individuals taking part in tournamnet selection 
+sigma = 0.1                             # gene mutation probability 
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     
-experiment_name = 'PLEASE_INSERT_EXPERIMENT_NAME'
+experiment_name = 'TSP_'+str(tournament_size)+'_sigma_'+str(sigma)
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
     
@@ -81,8 +83,6 @@ npop = 100                              # Population size
 gens = 10                               # number of generations
 individuals_deleted = 30                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
-tournament_size = 10                    # Number of individuals taking part in tournamnet selection 
-sigma = 0.1                             # gene mutation probability 
 
     
 #################### PREFORM EXPERIMENT #####################################
