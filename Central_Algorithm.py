@@ -25,8 +25,8 @@ from mutation_recombination_methods import *
 from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
-tournament_size = 20                    # Number of individuals taking part in tournamnet selection 
-sigma = 0.1                             # gene mutation probability 
+tournament_size = 30                    # Number of individuals taking part in tournamnet selection 
+sigma = 0.05                            # gene mutation probability 
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -85,7 +85,7 @@ individuals_deleted = 40                # number of individuals killed every gen
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
 
     
-#################### PREFORM EXPERIMENT #####################################
+#################### PERFORM EXPERIMENT #####################################
 
 start_time = time.time()
 
@@ -195,7 +195,7 @@ set_up_dict = {
 
 file_name = experiment_name + '_set_up.csv'
 set_up_df = pd.DataFrame.from_dict(set_up_dict)
-set_up_df.to_csv(file_name)
+set_up_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
 
 
 # row is trial
@@ -203,28 +203,27 @@ set_up_df.to_csv(file_name)
 
 columns = ['Generation_'+str(i+1) for i in range(gens+1)]
 rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
-    
 
 # One file for mean fitness
 file_name = experiment_name + '_mean_fitness.csv'
 mean_fitness_df = pd.DataFrame(average_fitness_data)
 mean_fitness_df.columns = columns
 mean_fitness_df.index = rows
-mean_fitness_df.to_csv(file_name)
+mean_fitness_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
 
 # one file for max fitness
 file_name = experiment_name + '_max_fitness.csv'
 max_fitness_df = pd.DataFrame(max_fitness_data)
 max_fitness_df.columns = columns
 max_fitness_df.index = rows
-max_fitness_df.to_csv(file_name)
+max_fitness_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
 
 # One file for standard deviation
 file_name = experiment_name + '_std_fitness.csv'
 std_fitness_df = pd.DataFrame(fitness_std_data)
 std_fitness_df.columns = columns
 std_fitness_df.index = rows
-std_fitness_df.to_csv(file_name)
+std_fitness_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
 
 
 # One file for best solution
@@ -233,5 +232,4 @@ rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
 file_name = experiment_name + '_best_solution.csv'
 best_df = pd.DataFrame(best_solution_data)
 best_df.index = rows
-best_df.to_csv(file_name)
-
+best_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
