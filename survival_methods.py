@@ -7,12 +7,15 @@ Created on Thu Sep 15 19:24:15 2022
 
 import numpy as np
 
-def kill_worst_x_percent(population, fit_pop, kill_perc):
+def kill__x_individuals(population, fit_pop, x):
+    """
+    this function takes the population, fitness of the population and number
+    of individuals to be delted as inputs
+    
+    it returns the new population along with it's fitness values'
+    """
 
-    # number of individuals to be deleted
-    num_to_kill = int(len(fit_pop)*kill_perc)
-
-    for i in range(num_to_kill):
+    for i in range(x):
         # indicies sorted from worst to best solution
         index_sorted = np.argsort(fit_pop)
         # index of worst solution

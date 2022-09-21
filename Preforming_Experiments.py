@@ -26,12 +26,16 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
+tournament_size = 10    # Number of individuals taking part in tournamnet selection 
+sigma = 0.1             # gene mutation probability 
+dist_std = 0.5          # mean of distribution to draw sizes for gene mutation
+
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     
-experiment_name = "experiment_name"
+experiment_name = 'mutation_probability_'+str(sigma)+'_tournament_size_'+str(tournament_size)+"_gaussian_"+str(dist_std)
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
     
@@ -74,19 +78,18 @@ run_mode = 'train' # train or test
 n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
 
 
-dom_u = 1               # Max weight for neural network
-dom_l = -1              # Min weight for neural network
-npop = 100              # Population size
-gens = 10               # number of generations
-kill_perc = 0.25        # percentage of population killed every generation (as decimal)
-offspring_perc = 0.25   # percentage of offspring every generation (as decimal)
-TSP_perc = 0.15         # Percentage of population taking part in tournamnet selection (as decimal)
-sigma = 0.1             # gene mutation probability 
+dom_u = 1                               # Max weight for neural network
+dom_l = -1                              # Min weight for neural network
+npop = 100                              # Population size
+gens = 10                               # number of generations
+individuals_deleted = 24                # number of individuals killed every generation
+num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
     
 #################### PREFORM EXPERIMENT #####################################
 
 start_time = time.time()
 
+# number of times for this experiment to be repeated
 experiment_iterations = 10
 
 # create empty arrays to store values for each generation if every experiment 
@@ -117,12 +120,6 @@ for iteration in range(experiment_iterations):
     
     for iteration in range(gens):
     
-        # kill worst part of population
-        population, fit_pop = kill_worst_x_percent(population, fit_pop, kill_perc)
-    
-        # find the number of offspring to be generated
-        num_offspring = int(npop*offspring_perc)
-    
         # empty matrix for children such that they don't take part in 
         # reproduction of this cycle
         children = np.empty((0,n_vars), float)
@@ -131,21 +128,19 @@ for iteration in range(experiment_iterations):
         #followed by mutation
         for i in range(int(num_offspring/2)):
             
-            # find tournament size based on TSP_perc
-            k = int(TSP_perc*len(fit_pop))
-            parent_1 = tournament_selection(population, fit_pop, k)
-            parent_2 = tournament_selection(population, fit_pop, k)
+            parent_1 = tournament_selection(population, fit_pop, tournament_size)
+            parent_2 = tournament_selection(population, fit_pop, tournament_size)
             
             if i % 2 == 0:
 
                 child_1, child_2 = simple_arithmetic_recombination(parent_1, parent_2)
-                child_1 = uniform_mutation(child_1, sigma)
-                child_2 = uniform_mutation(child_2, sigma)
+                child_1 = gaussian_mutation(child_1, sigma, dist_std)
+                child_2 = gaussian_mutation(child_2, sigma, dist_std)
             
             else: 
 
-                child_1 = uniform_mutation(parent_1, sigma)
-                child_2 = uniform_mutation(parent_2, sigma)
+                child_1 = gaussian_mutation(parent_1, sigma, dist_std)
+                child_2 = gaussian_mutation(parent_2, sigma, dist_std)
                 
             
             # append each child to children array
@@ -154,10 +149,14 @@ for iteration in range(experiment_iterations):
     
         # append all offspring of this generation to population
         population = np.vstack([population, children])
-    
+        
+        # evaluate population
+        fit_pop = evaluate(population)
+        
+        # kill certain number of worst individuals
+        population, fit_pop = kill__x_individuals(population, fit_pop, individuals_deleted)
         
         # evaluate whole population and store values
-        fit_pop = evaluate(population)
         pop_size.append(len(fit_pop))
         best_solution_index = np.argmax(fit_pop)
         fitness_of_best_solution.append(fit_pop[best_solution_index])
@@ -181,12 +180,12 @@ print("Runtime was ", execution_time, " hours")
 # One file to store set-up
 
 set_up_dict = {
-  "Population_size": npop,
+  "Population size": npop,
   "Generations": gens,
-  "Killing_percentage": kill_perc,
-  "Offspring_percentage": offspring_perc,
-  "Tournamnet_selection_percentage": TSP_perc,
-  "Gene_mutation_probability": sigma,
+  "Killed per generation": individuals_deleted,
+  "Offspring number": num_offspring,
+  "Tournament size": tournament_size,
+  "Gene mutation probability": sigma,
   "Enemies": opponents,
   "Level": difficulty,
   "Iterations:":experiment_iterations,

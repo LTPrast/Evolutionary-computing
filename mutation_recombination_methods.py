@@ -26,7 +26,7 @@ def simple_arithmetic_recombination(parent_1, parent_2):
 
 ################### Mutation Methods ########################################
 
-def uniform_mutation(parent, sigma):
+def random_mutation(parent, sigma):
     """
     This function takes a parent and a positionwise mutation probability sigma
     as inputs and returns a single offspring.
@@ -39,7 +39,7 @@ def uniform_mutation(parent, sigma):
     for i in range(len(child)):
         
         if np.random.random() < sigma:
-            new_gene = np.random.uniform(-1,1)
+            new_gene = np.random.uniform(-0.5,0.5)
             child[i] = new_gene
             
         else:
@@ -48,12 +48,63 @@ def uniform_mutation(parent, sigma):
     return child
 
 
-def self_adaptive_mutation(parent):
-    child = np.zeros(len(parent))
-    # add to current value drawn from distribution
-    # adapt sigma value of distribution
-    return child
+def uniform_mutation(parent, sigma, std):
+    """
+    This function takes a parent and a positionwise mutation probability sigma
+    as inputs and returns a single offspring.
     
+    This function can also be used to add mutation to an offspring which has
+    undergone recombination.
+    """
+    child = np.zeros(len(parent))
+    
+    for i in range(len(child)):
+        
+        if np.random.random() < sigma:
+            old_gene = parent[i]
+            mutation = np.random.uniform(-std, std)
+            new_gene = old_gene + mutation
+            
+            if -1 < new_gene < 1: 
+                child[i] = new_gene
+            else:
+                new_gene = old_gene - mutation
+                child[i] = new_gene
+            
+        else:
+            child[i] = parent[i]
+            
+    return child
+
+
+def gaussian_mutation(parent, sigma, std):
+    """
+    This function takes a parent and a positionwise mutation probability sigma
+    as inputs and returns a single offspring.
+    
+    This function can also be used to add mutation to an offspring which has
+    undergone recombination.
+    """
+    child = np.zeros(len(parent))
+    
+    for i in range(len(child)):
+        
+        if np.random.random() < sigma:
+            old_gene = parent[i]
+            mutation = np.random.normal(0, std)
+            new_gene = old_gene + mutation
+            
+            if -1 < new_gene < 1: 
+                child[i] = new_gene
+            else:
+                new_gene = old_gene - mutation
+                child[i] = new_gene
+            
+        else:
+            child[i] = parent[i]
+            
+    return child
+
 
 
 
