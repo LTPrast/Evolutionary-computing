@@ -26,7 +26,8 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 tournament_size = 30                    # Number of individuals taking part in tournamnet selection 
-sigma = 0.05                            # gene mutation probability 
+sigma = 0.1                             # gene mutation probability 
+
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -58,12 +59,12 @@ difficulty = 2
 
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
-                  enemies=opponents,
-                  playermode="ai",
-                  player_controller=player_controller(n_hidden_neurons),
-                  enemymode="static",
-                  level=difficulty,
-                  speed="fastest")
+                enemies=opponents,
+                playermode="ai",
+                player_controller=player_controller(n_hidden_neurons),
+                enemymode="static",
+                level=difficulty,
+                speed="fastest")
 
 # default environment fitness is assumed for experiment
 env.state_to_log() # checks environment state
@@ -134,14 +135,13 @@ for iteration in range(experiment_iterations):
             if i % 2 == 0:
 
                 child_1, child_2 = simple_arithmetic_recombination(parent_1, parent_2)
-                child_1 = gaussian_mutation(child_1, sigma, dist_std)
-                child_2 = gaussian_mutation(child_2, sigma, dist_std)
+                child_1 = mutation(child_1, sigma, dist_std)
+                child_2 = mutation(child_2, sigma, dist_std)
             
             else: 
 
-                child_1 = gaussian_mutation(parent_1, sigma, dist_std)
-                child_2 = gaussian_mutation(parent_2, sigma, dist_std)
-                
+                child_1 = mutation(parent_1, sigma, dist_std)
+                child_2 = mutation(parent_2, sigma, dist_std)
             
             # append each child to children array
             children = np.append(children, np.array([child_1]), axis=0)
@@ -180,17 +180,17 @@ print("Runtime was ", execution_time, " hours")
 # One file to store set-up
 
 set_up_dict = {
-  "Population size": npop,
-  "Generations": gens,
-  "Killed per generation": individuals_deleted,
-  "Offspring number": num_offspring,
-  "Tournament size": tournament_size,
-  "Gene mutation probability": sigma,
-  "Enemies": opponents,
-  "Level": difficulty,
-  "Iterations:":experiment_iterations,
-  "Experiment Name": experiment_name,
-  "Execution Time": execution_time
+"Population size": npop,
+"Generations": gens,
+"Killed per generation": individuals_deleted,
+"Offspring number": num_offspring,
+"Tournament size": tournament_size,
+"Gene mutation probability": sigma,
+"Enemies": opponents,
+"Level": difficulty,
+"Iterations:":experiment_iterations,
+"Experiment Name": experiment_name,
+"Execution Time": execution_time
 }
 
 file_name = experiment_name + '_set_up.csv'
