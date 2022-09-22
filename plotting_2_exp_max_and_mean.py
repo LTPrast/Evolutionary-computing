@@ -8,6 +8,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+# TOURNAMENT SIZE
+TSP = 30
+
 sigmas = [0.05, 0.1, 0.15, 0.2]
 mean_fitness = []
 max_fitness = []
@@ -16,13 +19,13 @@ labels_max = []
 
 # For each sigma read file and append the dataframe
 for sigma in sigmas:
-    max_fitness_cur = pd.read_csv(f'./TSP_30_sigma_{sigma}/TSP_30_sigma_{sigma}_max_fitness.csv',delimiter=",")
+    max_fitness_cur = pd.read_csv(f'./TSP_{TSP}_sigma_{sigma}/TSP_{TSP}_sigma_{sigma}_max_fitness.csv',delimiter=",")
     max_fitness.append(max_fitness_cur)
 
     # label for line in the plot
     labels_max.append(r'max for $\sigma$ ='+f' {sigma}')
 
-    mean_fitness_cur = pd.read_csv(f'./TSP_30_sigma_{sigma}/TSP_30_sigma_{sigma}_mean_fitness.csv',delimiter=",")
+    mean_fitness_cur = pd.read_csv(f'./TSP_{TSP}_sigma_{sigma}/TSP_{TSP}_sigma_{sigma}_mean_fitness.csv',delimiter=",")
     mean_fitness.append(mean_fitness_cur)
 
     # label for line in the plot
