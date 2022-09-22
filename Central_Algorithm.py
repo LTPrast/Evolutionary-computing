@@ -25,7 +25,7 @@ from mutation_recombination_methods import *
 from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
-tournament_size = 30                    # Number of individuals taking part in tournamnet selection 
+tournament_size = 40                    # Number of individuals taking part in tournamnet selection 
 sigma = 0.05                            # gene mutation probability 
 
 # choose this for not using visuals and thus making experiments faster
