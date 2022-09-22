@@ -25,7 +25,7 @@ from mutation_recombination_methods import *
 from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
-tournament_size = 30                    # Number of individuals taking part in tournamnet selection 
+tournament_size = 20                    # Number of individuals taking part in tournamnet selection 
 sigma = 0.1                             # gene mutation probability 
 
 
@@ -119,7 +119,7 @@ for iteration in range(experiment_iterations):
     # find the standard deviation in fitness of the population
     std = [np.std(fit_pop)]
     
-    for iteration in range(gens):
+    for g in range(gens):
     
         # empty matrix for children such that they don't take part in 
         # reproduction of this cycle
