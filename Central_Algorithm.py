@@ -25,9 +25,9 @@ from mutation_recombination_methods import *
 from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
-tournament_size = 20                    # Number of individuals taking part in tournamnet selection 
-sigma = 0.1                             # gene mutation probability 
 
+tournament_size = 40                    # Number of individuals taking part in tournamnet selection 
+sigma = 0.1                            # gene mutation probability 
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -177,59 +177,40 @@ print("Runtime was ", execution_time, " hours")
 
 ##################### Save Data in Files ####################################
 
+def save_file(data, file_name, experiment_name, cols=True, rows=True):
+    # Save the data into a dataframe and save in csv file
+    df = pd.DataFrame(data)
+
+    if cols == True:
+        columns = ['Generation_'+str(i+1) for i in range(gens+1)]
+        df.columns = columns
+    if rows == True:
+        rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
+        df.index = rows
+    df.to_csv(experiment_name+'/'+experiment_name+file_name)
+    return
+
 # One file to store set-up
 
 set_up_dict = {
-"Population size": npop,
-"Generations": gens,
-"Killed per generation": individuals_deleted,
-"Offspring number": num_offspring,
-"Tournament size": tournament_size,
-"Gene mutation probability": sigma,
-"Enemies": opponents,
-"Level": difficulty,
-"Iterations:":experiment_iterations,
-"Experiment Name": experiment_name,
-"Execution Time": execution_time
+  "Population size": npop,
+  "Generations": gens,
+  "Killed per generation": individuals_deleted,
+  "Offspring number": num_offspring,
+  "Tournament size": tournament_size,
+  "Gene mutation probability": sigma,
+  "Enemies": opponents,
+  "Level": difficulty,
+  "Iterations:":experiment_iterations,
+  "Experiment Name": experiment_name,
+  "Execution Time": execution_time
 }
 
-file_name = experiment_name + '_set_up.csv'
-set_up_df = pd.DataFrame.from_dict(set_up_dict)
-set_up_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
+save_file(set_up_dict, '_set_up.csv', experiment_name, cols=False, rows=False)
 
-
-# row is trial
-# column is generation
-
-columns = ['Generation_'+str(i+1) for i in range(gens+1)]
-rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
-
-# One file for mean fitness
-file_name = experiment_name + '_mean_fitness.csv'
-mean_fitness_df = pd.DataFrame(average_fitness_data)
-mean_fitness_df.columns = columns
-mean_fitness_df.index = rows
-mean_fitness_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
-
-# one file for max fitness
-file_name = experiment_name + '_max_fitness.csv'
-max_fitness_df = pd.DataFrame(max_fitness_data)
-max_fitness_df.columns = columns
-max_fitness_df.index = rows
-max_fitness_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
-
-# One file for standard deviation
-file_name = experiment_name + '_std_fitness.csv'
-std_fitness_df = pd.DataFrame(fitness_std_data)
-std_fitness_df.columns = columns
-std_fitness_df.index = rows
-std_fitness_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
-
-
-# One file for best solution
-rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
-
-file_name = experiment_name + '_best_solution.csv'
-best_df = pd.DataFrame(best_solution_data)
-best_df.index = rows
-best_df.to_csv('TSP_'+str(tournament_size)+'_sigma_'+str(sigma)+'/'+file_name)
+# One file for mean fitness, max fitness, standard deviation and best solution
+save_file(average_fitness_data, '_mean_fitness.csv', experiment_name)
+save_file(max_fitness_data, '_max_fitness.csv', experiment_name)
+save_file(fitness_std_data, '_std_fitness.csv', experiment_name)
+save_file(fitness_std_data, '_std_fitness.csv', experiment_name)
+save_file(best_solution_data, '_best_solution.csv', experiment_name, cols=False)
