@@ -26,8 +26,8 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-tournament_size = 40                    # Number of individuals taking part in tournamnet selection 
-sigma = 0.1                            # gene mutation probability 
+tournament_size = 10                    # Number of individuals taking part in tournamnet selection 
+sigma = 0.175                           # gene mutation probability 
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
