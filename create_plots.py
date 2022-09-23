@@ -20,5 +20,9 @@ sigmas = [0.05, 0.1, 0.15, 0.2]
 tuning_plot_mean_fitness(TSPs, sigmas, name_1, name_2, colour, std=False)
 tuning_plot_max_fitness(TSPs, sigmas, name_1, name_2, colour, std=False)
 
+
+# 3D plot 
+tuning_3D_trisurface_plot_max_fitnesss(TSPs, sigmas, name_1, name_2)
+
 # compare two algorithms, max and mean with std
 compare_algorithms('TSP_30_sigma_0.2' , 'TSP_10_sigma_0.05')
