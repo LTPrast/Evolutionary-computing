@@ -31,3 +31,20 @@ def tournament_selection(population, fit_pop, k):
 
     return parent
 
+
+def fittest_with_random_parents(pop, fit_pop):
+    """
+    select two individuals for recombination
+    parent_1: the one with the highest fitness
+    parent_2: a random individual
+    """
+    # get the fittest parent_1
+    i_1 = np.argmax(fit_pop) # parent_1 index
+    parent_1 = pop[i_1]
+    fit_1 = fit_pop[i_1]
+    # get a random parent_2
+    i_2 = np.random.randint(len(fit_pop)) # parent_2 index
+    parent_2 = pop[i_2]
+    fit_2 = fit_pop[i_2]
+    return parent_1, parent_2, fit_1, fit_2
+
