@@ -14,7 +14,7 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 
-def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, colour, std=False):
+def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, std=False):
     """
     parameter_1 = list of parameters used for tuning
     parameter_2 = list of second parameters used for tuning
@@ -67,10 +67,8 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, colour, s
         final_values.append(average_mean_fitness[-1])
 
         # Plot fitness lines
-        plt.plot(generations, average_mean_fitness, linestyle='dashed' ,color=colour[i], label=labels_mean[i])
+        plt.plot(generations, average_mean_fitness, linestyle='dashed' , label=labels_mean[i])
         
-        if std:
-            plt.fill_between(generations, average_mean_fitness-std_mean_fitness, average_mean_fitness+std_mean_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
     
     # Plot all
     plt.legend()
@@ -87,7 +85,7 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, colour, s
     return
     
 
-def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2, colour, std=False):
+def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2, std=False):
     """
     parameter_1 = list of parameters used for tuning
     parameter_2 = list of second parameters used for tuning
@@ -140,10 +138,8 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2, colour, st
         final_values.append(average_max_fitness[-1])
 
         # Plot fitness lines
-        plt.plot(generations, average_max_fitness, linestyle='dashed' ,color=colour[i], label=labels_max[i])
+        plt.plot(generations, average_max_fitness, linestyle='dashed', label=labels_max[i])
         
-        if std:
-            plt.fill_between(generations, average_max_fitness-std_max_fitness, average_max_fitness+std_max_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
     
     # Plot all
     plt.legend()
