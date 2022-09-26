@@ -1,2 +1,2 @@
 ,Population size,Generations,Killed per generation,Offspring number,Tournament size,Gene mutation probability,Enemies,Level,Iterations:,Experiment Name,Execution Time
-0,200,20,40,40,40,0.25,4,2,10,TSP_40_sigma_0.25,3.8076742021242778
+0,200,20,40,40,40,0.25,4,2,10,TSP_40_sigma_0.25,4.08952544828256
