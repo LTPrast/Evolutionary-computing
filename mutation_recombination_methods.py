@@ -22,7 +22,7 @@ def simple_arithmetic_recombination(parent_1, parent_2):
     
     return child_1, child_2 
 
-def swap_tails_after_random_point(parent_1, parent_2):
+def one_point_crossover(parent_1, parent_2):
     """
     1-point recombination by exchanging tails (2nd parts)
     Get a random index and swap the 2nd parts between parents after that index.
@@ -30,9 +30,11 @@ def swap_tails_after_random_point(parent_1, parent_2):
     """
     # get random point (exclude edges)
     point = np.random.randint(1, len(parent_1) - 1)
+    
     # swap tails
     child_1 = np.concatenate((parent_1[:point], parent_2[point:]))
     child_2 = np.concatenate((parent_2[:point], parent_1[point:]))
+    
     return child_1, child_2
 
 ################### Mutation Methods ########################################
@@ -69,15 +71,18 @@ def mutation(parent, sigma, std, dist='gaussian'):
     return child
 
 
-def reset_or_creep_mutation(parent, resetting_sigma, creep_sigma, creep_std):
+def reset_or_creep_mutation(parent, resetting_sigma=0.001, creep_sigma=0.2, creep_std=0.1):
     """
     2 types of mutation: low probability to reset the weight to a random value
     from a (-1, 1) uniform distribution (random resetting)
     or just add to the weight a value taken from a N(0, 0.1) distribution (creep mutation)
     """
+
     child = np.zeros(len(parent))
+    
     # for each weight of the individual apply one of the two mutations
     for i in range(len(child)):
+        
         # random resetting with mutation_rate probability
         if np.random.uniform(0,1) <= resetting_sigma:
             child[i] = np.random.uniform(-1, 1)
