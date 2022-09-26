@@ -63,7 +63,7 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
             worst_idx_local = index_sorted[0]
             worst_idx_global = worst_idx_local + start
             # find local (subpopulation level) and global (population level) index of 2nd worst member of subpopulation
-            worst2_idx_local = index_sorted[-1]
+            worst2_idx_local = index_sorted[1]
             worst2_idx_global = worst2_idx_local + start
             
             # replace worst member of subpopulation if child has higher fitness
