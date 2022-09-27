@@ -14,7 +14,7 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 
-def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, colour, std=False):
+def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2):
     """
     parameter_1 = list of parameters used for tuning
     parameter_2 = list of second parameters used for tuning
@@ -67,16 +67,15 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, colour, s
         final_values.append(average_mean_fitness[-1])
 
         # Plot fitness lines
-        plt.plot(generations, average_mean_fitness, linestyle='dashed' ,color=colour[i], label=labels_mean[i])
+        plt.plot(generations, average_mean_fitness, linestyle='dashed' , label=labels_mean[i])
         
-        if std:
-            plt.fill_between(generations, average_mean_fitness-std_mean_fitness, average_mean_fitness+std_mean_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
     
     # Plot all
-    plt.legend()
-    plt.xlabel("Generation")
-    plt.ylabel("Fitness")
-    plt.title("Tuning; Mean Fitness")
+    plt.legend(fontsize=20)
+    plt.xlabel("Generation", fontsize=20)
+    plt.ylabel("Fitness", fontsize=20)
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.title("Tuning; Mean Fitness", fontsize=20)
     plt.show()
     
     print("sorted list from worst to best measured by mean fitness after ", number_of_generations, " generations")
@@ -87,7 +86,7 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2, colour, s
     return
     
 
-def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2, colour, std=False):
+def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     """
     parameter_1 = list of parameters used for tuning
     parameter_2 = list of second parameters used for tuning
@@ -140,16 +139,15 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2, colour, st
         final_values.append(average_max_fitness[-1])
 
         # Plot fitness lines
-        plt.plot(generations, average_max_fitness, linestyle='dashed' ,color=colour[i], label=labels_max[i])
+        plt.plot(generations, average_max_fitness, linestyle='dashed', label=labels_max[i])
         
-        if std:
-            plt.fill_between(generations, average_max_fitness-std_max_fitness, average_max_fitness+std_max_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
     
     # Plot all
-    plt.legend()
-    plt.xlabel("Generation")
-    plt.ylabel("Fitness")
-    plt.title("Tuning; Max Fitness")
+    plt.legend(fontsize=20)
+    plt.xlabel("Generation", fontsize=20)
+    plt.ylabel("Fitness", fontsize=20)
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.title("Tuning; Max Fitness", fontsize=20)
     plt.show()
     
     print("sorted list from worst to best measured by max fitness after ", number_of_generations, " generations")
@@ -231,10 +229,11 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
         plt.fill_between(generations, average_mean_fitness-std_mean_fitness, average_mean_fitness+std_mean_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
         
     # Plot all
-    plt.legend()
-    plt.xlabel("Generation")
-    plt.ylabel("Fitness")
-    plt.title("EA Comparisson")
+    plt.legend(fontsize=20)
+    plt.xlabel("Generation",fontsize=20)
+    plt.ylabel("Fitness", fontsize=20)
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.title("EA Comparisson", fontsize=20)
     plt.show()
     return
 
@@ -298,7 +297,7 @@ def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name
     ax.xaxis.set_major_locator(MaxNLocator(5))
     ax.yaxis.set_major_locator(MaxNLocator(6))
     ax.zaxis.set_major_locator(MaxNLocator(5))
-    ax.tick_params(labelsize=16)
+    ax.tick_params(labelsize=20)
     ax.set_xlabel(name_1, fontsize=20, rotation=150)
     ax.set_ylabel(name_2, fontsize=20)
     ax.set_zlabel('Max Fitness', fontsize=20, rotation=60)
