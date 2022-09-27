@@ -16,8 +16,8 @@ sigmas = [0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25]
 
 # compare a set of trials for different paramter values, plot max and mean on seperate plot
 # also prints a sorted list from worst to best
-# tuning_plot_mean_fitness(TSPs, sigmas, name_1, name_2, std=False)
-# tuning_plot_max_fitness(TSPs, sigmas, name_1, name_2, std=False)
+# tuning_plot_mean_fitness(TSPs, sigmas, name_1, name_2)
+# tuning_plot_max_fitness(TSPs, sigmas, name_1, name_2)
 
 
 # 3D plot 
