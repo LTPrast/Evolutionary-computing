@@ -157,7 +157,6 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     
     return
 
-
 def compare_algorithms(experiment_name_1, experiment_name_2):
     """
     Comparing two experiments with diffeent EAs
@@ -237,6 +236,37 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
     plt.show()
     return
 
+def comp_algos_boxplots(experiment_name_1, experiment_name_2):
+    """
+    Comparing two experiments with diffeent EAs
+    
+    experiment_name_1 = name of first experiment to find directory
+    experiment_name_2 = name of second experiment to find directory
+    """
+
+    experiments = [experiment_name_1, experiment_name_2]
+    
+    # Define plot colours (lightblue and lightred)
+    colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
+
+    for i in range(2):
+        ind_gains = pd.read_csv(f'./{experiment}/{experiment}_ind_gain.csv',delimiter=",")
+        
+        box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True,
+            medianprops=dict(color='black'))
+        plt.setp(box["boxes"], facecolor=colour[i])
+    
+
+    # Plot all
+    plt.xlabel("EA",fontsize=15)
+    plt.ylabel("Individual Gain", fontsize=15)
+    plt.tick_params(axis='both', which='major', labelsize=15)
+    plt.xticks([1,2],['Normal', 'Island'])
+    plt.title("EA Comparison", fontsize=15)
+    plt.show()
+    return
+
+comp_algos_boxplots('test1', 'experiment_name_2')
 
 def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     """
