@@ -60,7 +60,7 @@ for opponent in opponents:
         
         np.random.seed(99)
 
-        experiment_name = f'enemy_{opponent[0]}_{algo}'
+        experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name)
 
