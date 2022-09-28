@@ -250,7 +250,7 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
 
     for i in range(2):
-        ind_gains = pd.read_csv(f'./{experiment}/{experiment}_ind_gain.csv',delimiter=",")
+        ind_gains = pd.read_csv(f'./{experiments[i]}/{experiments[i]}_ind_gain.csv',delimiter=",")
         
         box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True,
             medianprops=dict(color='black'))
@@ -263,10 +263,9 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     plt.tick_params(axis='both', which='major', labelsize=15)
     plt.xticks([1,2],['Normal', 'Island'])
     plt.title("EA Comparison", fontsize=15)
+    plt.savefig(pd.to_csv(f'./{experiments[i]}/{experiments[i]}_boxplot.csv',delimiter=","))
     plt.show()
     return
-
-comp_algos_boxplots('test1', 'experiment_name_2')
 
 def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     """
