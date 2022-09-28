@@ -33,7 +33,7 @@ for opponents in opps:
     if headless:
         os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-    opponents = [1]
+    # opponents = [1]
 
     experiment_name = 'island_algo_enemy_'+str(opponents)[1]
     if not os.path.exists(experiment_name):
@@ -91,7 +91,7 @@ for opponents in opps:
     dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
     npop = 200                              # Population size
     num_sub_pop = 20                        # number of subpopulations
-    gens = 100                              # number of generations
+    gens = 100                             # number of generations
     individuals_deleted = 40                # number of individuals killed every generation
     num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
     tournament_size = int(round(npop/num_sub_pop * 0.25))# Number of individuals taking part in tournamnet selection 
@@ -146,8 +146,8 @@ for opponents in opps:
             highest_gain.append(gain[highest_gain_index])
 
         
-        plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=True)
-        plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=False)
+        # plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=True)
+        # plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=False)
         
         average_fitness_data = np.append(average_fitness_data, [np.array(mean)], axis=0)
         max_fitness_data = np.append(max_fitness_data,  [np.array(fitness_of_best_solution)], axis=0)

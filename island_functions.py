@@ -54,8 +54,8 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
                 child_2 = gaussian_mutation(parent_2, sigma, dist_std)
             
             # evaluate each child
-            child_1_fitness, _, _ = evaluate([child_1])[0]
-            child_2_fitness, _, _ = evaluate([child_2])[0]
+            child_1_fitness, _, _ = evaluate([child_1])
+            child_2_fitness, _, _ = evaluate([child_2])
             
             # find worst indidivudals of subpopulation
             index_sorted = np.argsort(fit_sub_pop)
