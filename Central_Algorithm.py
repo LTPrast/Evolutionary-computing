@@ -26,7 +26,7 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-opponents = [4]
+opponents = [1]
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -44,7 +44,16 @@ def simulation(env,x):
 
 # evaluates fitness of every individual in population
 def evaluate(x):
-    return np.array(list(map(lambda y: simulation(env,y), x)))
+    fit = []
+    player_hp = []
+    enemy_hp = []
+    for agent in x:
+        f, p, e = simulation(env, agent)
+        fit.append(f)
+        player_hp.append(p)
+        enemy_hp.append(e)
+    return np.array(fit), np.array(player_hp), np.array(enemy_hp)
+    #return np.array(list(map(lambda y: simulation(env,y), x)))
 
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
