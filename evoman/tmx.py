@@ -283,6 +283,7 @@ class Layer(object):
     def draw(self, surface):
         '''Draw this layer, limited to the current viewport, to the Surface.
         '''
+        return
         ox, oy = self.position
         w, h = self.view_w, self.view_h
         for x in range(ox, ox + w + self.tile_width, self.tile_width):
@@ -441,6 +442,7 @@ visible: Whether the object is shown (1) or hidden (0). Defaults to 1.
         self._deleted_properties.add(key)
 
     def draw(self, surface, view_x, view_y):
+        return
         if not self.visible:
             return
         x, y = (self.px - view_x, self.py - view_y)
@@ -553,6 +555,7 @@ class ObjectLayer(object):
     def draw(self, surface):
         '''Draw this layer, limited to the current viewport, to the Surface.
         '''
+        return
         if not self.visible:
             return
         ox, oy = self.position
@@ -631,6 +634,7 @@ class SpriteLayer(pygame.sprite.AbstractGroup):
         self.position = (x, y)
 
     def draw(self, screen):
+        return
         ox, oy = self.position
         w, h = self.view_w, self.view_h
         
@@ -702,6 +706,7 @@ class TileMap(object):
             layer.update(dt, *args)
 
     def draw(self, screen):
+        return
         for layer in self.layers:
             if layer.visible:
                 layer.draw(screen)

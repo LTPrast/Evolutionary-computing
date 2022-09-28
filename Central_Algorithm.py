@@ -26,19 +26,21 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
+opponents = [4]
+
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     
-experiment_name = 'PLEASE_INSERT_EXPERIMENT_NAME'
+experiment_name = 'basic_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
     
 # runs simulation
 def simulation(env,x):
     f,p,e,t = env.play(pcont=x)
-    return f
+    return f, p, e
 
 # evaluates fitness of every individual in population
 def evaluate(x):
@@ -51,7 +53,7 @@ np.random.seed(99)
 
 n_hidden_neurons = 10
 
-opponents = [4]
+
 difficulty = 2
 
 # initializes simulation in individual evolution mode, for single static enemy.
@@ -78,10 +80,10 @@ dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
-gens = 10                               # number of generations
+gens = 100                               # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
-tournament_size = 20                    # Number of individuals taking part in tournamnet selection 
+tournament_size = 50                    # Number of individuals taking part in tournamnet selection 
 sigma = 0.1                             # gene mutation probability 
 
     
@@ -98,6 +100,7 @@ average_fitness_data = np.empty((0, gens+1), float)
 max_fitness_data = np.empty((0,gens+1), float)
 fitness_std_data = np.empty((0,gens+1), float)
 best_solution_data = np.empty((0,n_vars), float)
+highest_gain_data = np.empty((0, n_vars), float)
 
 for iteration in range(experiment_iterations):
 
@@ -106,13 +109,16 @@ for iteration in range(experiment_iterations):
     
         
     # find fitness of each member of the initial population
-    fit_pop = evaluate(population)
+    fit_pop, player_hp, enemy_hp = evaluate(population)
+    gain = player_hp - enemy_hp
     # store population size to later analyze if remaining constant
     pop_size = [len(fit_pop)]
     # find the index of the fitest individual
     best_solution_index = np.argmax(fit_pop)
+    highest_gain_index = np.argmax(gain)
     # find the fitness of the best solution
     fitness_of_best_solution = [fit_pop[best_solution_index]]
+    highest_gain = [gain[highest_gain_index]]
     # find the mean fitness of the population
     mean = [np.mean(fit_pop)]
     # find the standard deviation in fitness of the population
@@ -151,8 +157,8 @@ for iteration in range(experiment_iterations):
         population = np.vstack([population, children])
         
         # evaluate population
-        fit_pop = evaluate(population)
-        
+        fit_pop, player_hp, enemy_hp = evaluate(population)
+        gain = player_hp - enemy_hp
         # kill certain number of worst individuals
         population, fit_pop = kill__x_individuals(population, fit_pop, individuals_deleted)
         
@@ -160,6 +166,8 @@ for iteration in range(experiment_iterations):
         pop_size.append(len(fit_pop))
         best_solution_index = np.argmax(fit_pop)
         fitness_of_best_solution.append(fit_pop[best_solution_index])
+        highest_gain_index = np.argmax(gain)
+        highest_gain.append(gain[highest_gain_index])
         mean.append(np.mean(fit_pop))
         std.append(np.std(fit_pop))
         
@@ -167,7 +175,7 @@ for iteration in range(experiment_iterations):
     max_fitness_data = np.append(max_fitness_data,  [np.array(fitness_of_best_solution)], axis=0)
     fitness_std_data = np.append(fitness_std_data, [np.array(std)], axis=0)
     best_solution_data = np.append(best_solution_data, [np.array(population[best_solution_index][:])], axis=0)
-
+    highest_gain_data = np.append(highest_gain, [np.array(population[highest_gain_index][:])], axis=0)
     
 
 end_time = time.time()
@@ -214,3 +222,4 @@ save_file(max_fitness_data, '_max_fitness.csv', experiment_name)
 save_file(fitness_std_data, '_std_fitness.csv', experiment_name)
 save_file(fitness_std_data, '_std_fitness.csv', experiment_name)
 save_file(best_solution_data, '_best_solution.csv', experiment_name, cols=False)
+save_file(highest_gain_data, '_highest_gain.csv', experiment_name, cols=False)

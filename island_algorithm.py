@@ -30,14 +30,16 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-experiment_name = 'first_real_run'
+opponents = [4]
+
+experiment_name = 'island_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
 # runs simulation
 def simulation(env,x):
     f,p,e,t = env.play(pcont=x)
-    return f
+    return f, p, e
 
 # evaluates fitness of every individual in population
 def evaluate(x):
@@ -50,7 +52,7 @@ np.random.seed(99)
 
 n_hidden_neurons = 10
 
-opponents = [4]
+
 difficulty = 2
 
 # initializes simulation in individual evolution mode, for single static enemy.
@@ -96,6 +98,7 @@ experiment_iterations = 10
 average_fitness_data = np.empty((0, gens+1), float)
 max_fitness_data = np.empty((0,gens+1), float)
 best_solution_data = np.empty((0,n_vars), float)
+highest_gain_data = np.empty((0, n_vars), float)
 
 for iteration in range(experiment_iterations):
 
@@ -103,12 +106,15 @@ for iteration in range(experiment_iterations):
     population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
       
     # find fitness of each member of the initial population
-    fit_pop = evaluate(population)
+    fit_pop, player_hp, enemy_hp = evaluate(population)
+    gain = player_hp - enemy_hp
     subpop_plot_data = np.array([fit_pop])
     
     best_solution_index = np.argmax(fit_pop)
+    highest_gain_index = np.argmax(gain)
     # find the fitness of the best solution
     fitness_of_best_solution = [fit_pop[best_solution_index]]
+    highest_gain = [gain[highest_gain_index]]
     # find the mean fitness of the population
     mean = [np.mean(fit_pop)]
     
@@ -125,6 +131,9 @@ for iteration in range(experiment_iterations):
         fitness_of_best_solution.append(fit_pop[best_solution_index])
         mean.append(np.mean(fit_pop))
 
+        highest_gain_index = np.argmax(gain)
+        highest_gain.append(gain[highest_gain_index])
+
     
     plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=True)
     plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=False)
@@ -132,6 +141,7 @@ for iteration in range(experiment_iterations):
     average_fitness_data = np.append(average_fitness_data, [np.array(mean)], axis=0)
     max_fitness_data = np.append(max_fitness_data,  [np.array(fitness_of_best_solution)], axis=0)
     best_solution_data = np.append(best_solution_data, [np.array(population[best_solution_index][:])], axis=0)
+    highest_gain_data = np.append(highest_gain_data, [np.array(population[highest_gain_index][:])], axis=0)
 
 end_time = time.time()
 
@@ -178,3 +188,4 @@ save_file(set_up_dict, '_set_up.csv', experiment_name, cols=False, rows=False)
 save_file(average_fitness_data, '_mean_fitness.csv', experiment_name)
 save_file(max_fitness_data, '_max_fitness.csv', experiment_name)
 save_file(best_solution_data, '_best_solution.csv', experiment_name, cols=False)
+save_file(highest_gain_data, '_highest_gain.csv', experiment_name, cols=False)
