@@ -8,6 +8,7 @@ Created on Fri Sep 23 15:19:23 2022
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
 
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
@@ -250,7 +251,8 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
 
     for i in range(2):
-        ind_gains = pd.read_csv(f'./{experiment}/{experiment}_ind_gain.csv',delimiter=",")
+        with open(f'./{experiments[i]}/{experiments[i]}_ind_gains', "rb") as file:
+            ind_gains = pickle.load(file)
         
         box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True,
             medianprops=dict(color='black'))
@@ -263,10 +265,8 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     plt.tick_params(axis='both', which='major', labelsize=15)
     plt.xticks([1,2],['Normal', 'Island'])
     plt.title("EA Comparison", fontsize=15)
-    plt.show()
+    plt.savefig(f'./{experiments[0]}/island_and_{experiments[0]}_boxplots.jpg', dpi=300)
     return
-
-comp_algos_boxplots('test1', 'experiment_name_2')
 
 def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     """
