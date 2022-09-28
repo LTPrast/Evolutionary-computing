@@ -184,7 +184,7 @@ for iteration in range(experiment_iterations):
     max_fitness_data = np.append(max_fitness_data,  [np.array(fitness_of_best_solution)], axis=0)
     fitness_std_data = np.append(fitness_std_data, [np.array(std)], axis=0)
     best_solution_data = np.append(best_solution_data, [np.array(population[best_solution_index][:])], axis=0)
-    highest_gain_data = np.append(highest_gain, [np.array(population[highest_gain_index][:])], axis=0)
+    highest_gain_data = np.append(highest_gain_data, [np.array(population[highest_gain_index][:])], axis=0)
     
 
 end_time = time.time()
