@@ -56,7 +56,7 @@ def evaluate(x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-np.random.seed(99)
+np.random.seed(100)
 
 n_hidden_neurons = 10
 difficulty = 2
@@ -85,7 +85,7 @@ dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
 num_sub_pop = 20                        # number of subpopulations
-gens = 3                              # number of generations
+gens = 100                              # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
 tournament_size = int(round(npop/num_sub_pop * 0.25))# Number of individuals taking part in tournamnet selection 
@@ -98,7 +98,7 @@ migration_magnitude = 4                 # how many members cross over to a new i
 start_time = time.time()
 
 # number of times for this experiment to be repeated
-experiment_iterations = 1
+experiment_iterations = 10
 
 average_fitness_data = np.empty((0, gens+1), float)
 max_fitness_data = np.empty((0,gens+1), float)
