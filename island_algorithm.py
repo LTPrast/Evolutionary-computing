@@ -30,7 +30,7 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-opponents = [6]
+opponents = [4]
 
 experiment_name = 'island_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
@@ -85,7 +85,7 @@ dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
 num_sub_pop = 20                        # number of subpopulations
-gens = 100                              # number of generations
+gens = 3                              # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
 tournament_size = int(round(npop/num_sub_pop * 0.25))# Number of individuals taking part in tournamnet selection 
@@ -98,7 +98,7 @@ migration_magnitude = 4                 # how many members cross over to a new i
 start_time = time.time()
 
 # number of times for this experiment to be repeated
-experiment_iterations = 10
+experiment_iterations = 1
 
 average_fitness_data = np.empty((0, gens+1), float)
 max_fitness_data = np.empty((0,gens+1), float)
@@ -111,9 +111,9 @@ for iteration in range(experiment_iterations):
     population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
     
     # find fitness of each member of the initial population
-    fit_pop = 0
-    player_hp = 0
-    enemy_hp = 0
+    fit_pop = np.zeros(npop, float)
+    player_hp = np.zeros(npop, float)
+    enemy_hp = np.zeros(npop, float)
     for i in range(5):
         f, p, e = evaluate(population)
         fit_pop += f/5
