@@ -25,14 +25,12 @@ from mutation_recombination_methods import *
 from survival_methods import *
 from island_functions import *
 
-opponents = [1]
-
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-# opponents = [1]
+opponents = [6]
 
 experiment_name = 'island_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
@@ -62,13 +60,15 @@ np.random.seed(99)
 
 n_hidden_neurons = 10
 
+difficulty = 2
+
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
                 enemies=opponents,
                 playermode="ai",
                 player_controller=player_controller(n_hidden_neurons),
                 enemymode="static",
-                level=2,
+                level=difficulty,
                 speed="fastest")
 
 # default environment fitness is assumed for experiment
