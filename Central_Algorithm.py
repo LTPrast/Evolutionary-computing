@@ -26,7 +26,7 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-opponents = [1]
+opponents = [4]
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -58,7 +58,7 @@ def evaluate(x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-np.random.seed(99)
+np.random.seed(100)
 
 n_hidden_neurons = 10
 
@@ -89,7 +89,7 @@ dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
-gens = 100                               # number of generations
+gens = 100                              # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
 tournament_size = 50                    # Number of individuals taking part in tournamnet selection 
@@ -163,13 +163,15 @@ for iteration in range(experiment_iterations):
             children = np.append(children, np.array([child_2]), axis=0)
     
         # append all offspring of this generation to population
-        population = np.vstack([population, children])
+        new_population = np.vstack([population, children])
         
         # evaluate population
-        fit_pop, player_hp, enemy_hp = evaluate(population)
-        gain = player_hp - enemy_hp
+        fit_children, children_p_hp, children_e_hp = evaluate(children)
+        children_gain = children_p_hp - children_e_hp
+        new_fit_pop = np.append(fit_pop, fit_children)
+        new_gain = np.append(gain, children_gain)
         # kill certain number of worst individuals
-        population, fit_pop = kill__x_individuals(population, fit_pop, individuals_deleted)
+        population, fit_pop = kill__x_individuals(new_population, new_fit_pop, new_gain, individuals_deleted)
         
         # evaluate whole population and store values
         pop_size.append(len(fit_pop))

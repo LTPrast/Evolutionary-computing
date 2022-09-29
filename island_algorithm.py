@@ -111,15 +111,15 @@ for iteration in range(experiment_iterations):
     population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
     
     # find fitness of each member of the initial population
-    fit_pop = np.zeros(npop, float)
-    player_hp = np.zeros(npop, float)
-    enemy_hp = np.zeros(npop, float)
-    for i in range(5):
-        f, p, e = evaluate(population)
-        fit_pop += f/5
-        player_hp += p/5
-        enemy_hp += e/5
-
+    #fit_pop = np.zeros(npop, float)
+    #player_hp = np.zeros(npop, float)
+    #enemy_hp = np.zeros(npop, float)
+    #for i in range(5):
+    #    f, p, e = evaluate(population)
+    #    fit_pop += f/5
+    #    player_hp += p/5
+    #    enemy_hp += e/5
+    fit_pop, player_hp, enemy_hp = evaluate(population)
     gain = player_hp - enemy_hp
     subpop_plot_data = np.array([fit_pop])
     

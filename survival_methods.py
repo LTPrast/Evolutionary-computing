@@ -7,7 +7,7 @@ Created on Thu Sep 15 19:24:15 2022
 
 import numpy as np
 
-def kill__x_individuals(population, fit_pop, x):
+def kill__x_individuals(population, fit_pop, gain, x):
     """
     this function takes the population, fitness of the population and number
     of individuals to be delted as inputs
@@ -24,6 +24,7 @@ def kill__x_individuals(population, fit_pop, x):
         # delete that solution and it's fitness
         population = np.delete(population, index ,0)
         fit_pop = np.delete(fit_pop, index)
+        gain = np.delete(gain, index)
         
     return population, fit_pop
 
