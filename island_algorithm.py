@@ -59,9 +59,7 @@ def evaluate(x):
 np.random.seed(99)
 
 n_hidden_neurons = 10
-
 difficulty = 2
-
 # initializes simulation in individual evolution mode, for single static enemy.
 env = Environment(experiment_name=experiment_name,
                 enemies=opponents,
@@ -87,7 +85,7 @@ dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
 num_sub_pop = 20                        # number of subpopulations
-gens = 100                             # number of generations
+gens = 100                              # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
 tournament_size = int(round(npop/num_sub_pop * 0.25))# Number of individuals taking part in tournamnet selection 
@@ -113,7 +111,15 @@ for iteration in range(experiment_iterations):
     population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
     
     # find fitness of each member of the initial population
-    fit_pop, player_hp, enemy_hp = evaluate(population)
+    fit_pop = 0
+    player_hp = 0
+    enemy_hp = 0
+    for i in range(5):
+        f, p, e = evaluate(population)
+        fit_pop += f/5
+        player_hp += p/5
+        enemy_hp += e/5
+
     gain = player_hp - enemy_hp
     subpop_plot_data = np.array([fit_pop])
     
