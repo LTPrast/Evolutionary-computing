@@ -171,7 +171,7 @@ for iteration in range(experiment_iterations):
         new_fit_pop = np.append(fit_pop, fit_children)
         new_gain = np.append(gain, children_gain)
         # kill certain number of worst individuals
-        population, fit_pop = kill__x_individuals(new_population, new_fit_pop, new_gain, individuals_deleted)
+        population, fit_pop, gain = kill__x_individuals(new_population, new_fit_pop, new_gain, individuals_deleted)
         
         # evaluate whole population and store values
         pop_size.append(len(fit_pop))

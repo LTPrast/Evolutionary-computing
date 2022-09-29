@@ -26,7 +26,7 @@ def kill__x_individuals(population, fit_pop, gain, x):
         fit_pop = np.delete(fit_pop, index)
         gain = np.delete(gain, index)
         
-    return population, fit_pop
+    return population, fit_pop, gain
 
 
 
