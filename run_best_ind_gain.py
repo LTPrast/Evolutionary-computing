@@ -36,7 +36,9 @@ def simulation(env,x):
 
 ####################### RUN ONCE ###########################
 
+
 opponents = [[1], [4], [6]]
+
 algos = ['basic', 'island']
 
 fig, ax = plt.subplots(1, 3, figsize=(12,4), sharex=True, sharey=True)
@@ -45,7 +47,7 @@ c = 0
 for opponent in opponents:
     for algo in algos:
 
-        experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
+        experiment_name = f'new_params_{algo}_algo_enemy_{opponent[0]}'
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name)
 
@@ -62,7 +64,7 @@ for opponent in opponents:
         ind_gains = []
 
         #best_solutions = pd.read_csv(f'./{experiment_name}/{experiment_name}_highest_gain.csv',delimiter=",")
-        best_solutions = pd.read_csv(f'./{experiment_name}/{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
+        best_solutions = pd.read_csv(f'./{experiment_name}/new_params_{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
         best_solutions = best_solutions.to_numpy()
         
         # number of times for this experiment to be repeated
