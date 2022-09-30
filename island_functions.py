@@ -95,7 +95,7 @@ def island_mutations(population, fit_pop, gain, num_sub_pop, num_offspring, tour
     return population, fit_pop, gain
 
 
-def island_migration(population, fit_pop, num_sub_pop, tournament_size, migration_magnitude):
+def island_migration(population, fit_pop, gain, num_sub_pop, tournament_size, migration_magnitude):
     
     index_increment = int(len(fit_pop)/num_sub_pop)
     stop = index_increment
@@ -117,17 +117,19 @@ def island_migration(population, fit_pop, num_sub_pop, tournament_size, migratio
             
             start_island_pop = population[start_island_start:start_island_stop][:]
             start_island_fit = fit_pop[start_island_start:start_island_stop]
-            
+            start_island_gain = gain[start_island_start:start_island_stop]
+
             destination_island_pop = population[destination_island_start:destination_island_stop][:]
             destination_island_fit = fit_pop[destination_island_start:destination_island_stop]
-
+            destination_island_gain = gain[destination_island_start:destination_island_stop]
             
             for y in range(migration_magnitude):
                 
                 # find migrant using tournament selection
                 migrant, migrant_idx = tournament_selection_migration(start_island_pop, start_island_fit, tournament_size)
                 migrant_fitness = start_island_fit[migrant_idx]
-                
+                migrant_gain = start_island_gain[migrant_idx]
+
                 # find worst individual in destination island
                 index_sorted = np.argsort(destination_island_fit)
                 worst_individual_local_index = index_sorted[0]
@@ -137,8 +139,9 @@ def island_migration(population, fit_pop, num_sub_pop, tournament_size, migratio
                 
                 population[worst_individual_global_index][:] = migrant
                 fit_pop[worst_individual_global_index] = migrant_fitness
-    
-    return population, fit_pop
+                gain[worst_individual_global_index] = migrant_gain
+
+    return population, fit_pop, gain
             
 
 def tournament_selection_migration(population, fit_pop, k):

@@ -136,7 +136,7 @@ for iteration in range(experiment_iterations):
         population, fit_pop, gain = island_mutations(population, fit_pop, gain, num_sub_pop, num_offspring, tournament_size, dist_std, sigma, evaluate)
         
         if generation != 0 and generation % migration_rate == 0:
-            population, fit_pop = island_migration(population, fit_pop, num_sub_pop, tournament_size, migration_magnitude)
+            population, fit_pop, gain = island_migration(population, fit_pop, gain, num_sub_pop, tournament_size, migration_magnitude)
     
         subpop_plot_data = np.vstack((subpop_plot_data, fit_pop))
             
