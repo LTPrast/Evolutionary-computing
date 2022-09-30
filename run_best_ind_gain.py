@@ -11,19 +11,14 @@ sys.path.insert(0, 'evoman')
 from environment import Environment
 from demo_controller import player_controller
 
-# imports other libs
-import time
-import numpy as np
-from math import fabs,sqrt
 import glob, os
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import pickle
+import scipy.stats as st
 
 # import evolutionary algorithm functions
-from parent_selection_methods import *
-from mutation_recombination_methods import *
-from survival_methods import *
 from plotting_functions import *
 
 ######################### SET-UP FRAMEWORK ###################################
@@ -38,31 +33,17 @@ def simulation(env,x):
     f,p,e,t = env.play(pcont=x)
     return f,p,e
 
-# evaluates fitness of every individual in population
-# def evaluate(x):
-#     fit = []
-#     player_hp = []
-#     enemy_hp = []
-#     for agent in x:
-#         f, p, e = simulation(env, agent)
-#         fit.append(f)
-#         player_hp.append(p)
-#         enemy_hp.append(e)
-#     return np.array(fit), np.array(player_hp), np.array(enemy_hp)
 
+####################### RUN ONCE ###########################
 
-####################### SET EXPERIMENT PARAMETERS ###########################
-
-opponents = [[1]]
+opponents = [[1], [4], [6]]
 algos = ['basic', 'island']
+
+fig, ax = plt.subplots(1, 3, figsize=(12,4), sharex=True, sharey=True)
+c = 0
 
 for opponent in opponents:
     for algo in algos:
-        
-        if opponent[0] == 4:
-            np.random.seed(100)
-        else:
-            np.random.seed(99)
 
         experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
         if not os.path.exists(experiment_name):
@@ -76,14 +57,6 @@ for opponent in opponents:
                         enemymode="static",
                         level=2,
                         speed="fastest")
-
-        # genetic algorithm params
-        run_mode = 'test' # train or test
-
-            
-        #################### PERFORM EXPERIMENT #####################################
-
-        start_time = time.time()
 
         # create empty arrays to store values for every experiment
         ind_gains = []
@@ -105,15 +78,41 @@ for opponent in opponents:
             
             ind_gains.append(np.mean(gains))
 
-        end_time = time.time()
-
-        execution_time = ((end_time-start_time)/60)/60
-        print("Runtime was ", execution_time, " hours")
-
         # save value of runs
         with open(experiment_name+'/'+experiment_name+'_ind_gains', "wb") as file:   #Pickling
             pickle.dump(ind_gains, file)
-
-    comp_algos_boxplots(f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}', opponent[0])
-
     
+    
+    # GET PLOTS
+    experiments = [f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}']
+    
+    # Define plot colours (lightblue and lightred)
+    colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
+
+    gains = []
+
+    for i in range(2):
+        with open(f'./{experiments[i]}/{experiments[i]}_ind_gains', "rb") as file:
+            ind_gains = pickle.load(file)
+            print(ind_gains)
+            gains.append(ind_gains)
+
+        box = ax[c].boxplot(ind_gains, positions=[i+1], patch_artist=True, medianprops=dict(color='black'))
+        plt.setp(box["boxes"], facecolor=colour[i])
+    
+    _, p = st.ttest_ind(gains[0], gains[1])
+    print('T test p-value:', p)
+
+    _, p = st.ttest_ind(gains[0], gains[1], equal_var=False)
+    print('Welch test p-value:', p)
+
+    # Plot all
+    ax[c].tick_params(axis='both', which='major', labelsize=18)
+    ax[c].set_title("Enemy %i" % (opponent[0]), fontsize=18)
+
+    c += 1
+
+ax[0].set_ylabel("Individual Gain", fontsize=18)
+plt.xticks([1,2],['Basic', 'Island'])
+plt.yticks([-20,0,20,40,60,80,100])
+plt.savefig(f'./EA_comparison_boxplots.jpg', dpi=300)
