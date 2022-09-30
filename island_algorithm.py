@@ -30,7 +30,7 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-opponents = [4]
+opponents = [1]
 
 experiment_name = 'island_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
@@ -56,7 +56,7 @@ def evaluate(x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-np.random.seed(100)
+np.random.seed(99)
 
 n_hidden_neurons = 10
 difficulty = 2
@@ -106,6 +106,7 @@ best_solution_data = np.empty((0,n_vars), float)
 highest_gain_data = np.empty((0, n_vars), float)
 
 for iteration in range(experiment_iterations):
+    print('iteration', iteration)
 
     # Create Populations, one individual is one row in a matrix
     population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
