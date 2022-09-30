@@ -250,14 +250,24 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2, enemy):
     # Define plot colours (lightblue and lightred)
     colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
 
+    gains = []
+
     for i in range(2):
         with open(f'./{experiments[i]}/{experiments[i]}_ind_gains', "rb") as file:
             ind_gains = pickle.load(file)
-            #print(ind_gains)
+            print(ind_gains)
+            gains.append(ind_gains)
+
         
         box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True, medianprops=dict(color='black'))
         plt.setp(box["boxes"], facecolor=colour[i])
     
+    import scipy.stats as st
+    _, p = st.ttest_ind(gains[0], gains[1])
+    print('T test p-value:', p)
+
+    _, p = st.ttest_ind(gains[0], gains[1], equal_var=False)
+    print('Welch test p-value:', p)
 
     # Plot all
     plt.xlabel("EA",fontsize=15)
