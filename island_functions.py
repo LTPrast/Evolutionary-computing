@@ -13,7 +13,7 @@ from mutation_recombination_methods import *
 from survival_methods import *
 
 
-def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament_size, dist_std, sigma, evaluate):
+def island_mutations(population, fit_pop, gain, num_sub_pop, num_offspring, tournament_size, dist_std, sigma, evaluate):
     """
     population = population of all islands
     fit_pop = fitness of all individulas of all islands
@@ -35,7 +35,7 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
         
         sub_pop = population[start:stop][:]
         fit_sub_pop = fit_pop[start:stop]
-        
+        gain_sub_pop = gain[start:stop]
         # create offspring for sub-population
         for y in range(int(offspring_per_island/2)):
             
@@ -54,8 +54,10 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
                 child_2 = gaussian_mutation(parent_2, sigma, dist_std)
             
             # evaluate each child
-            child_1_fitness = evaluate([child_1])[0]
-            child_2_fitness = evaluate([child_2])[0]
+            child_1_fitness, php1, ehp1 = evaluate([child_1])
+            child_2_fitness, php2, ehp2 = evaluate([child_2])
+            child_1_gain = php1 - ehp1
+            child_2_gain = php2 - ehp2
             #child_1_fitness = 0
             #child_2_fitness = 0
             #for i in range(5):
@@ -75,19 +77,22 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
             if child_1_fitness > fit_pop[worst_idx_global]:
                 population[worst_idx_global][:] = child_1
                 fit_pop[worst_idx_global] = child_1_fitness
-                
+                gain[worst_idx_global] = child_1_gain
+
                 if child_2_fitness > fit_pop[worst2_idx_global]:
                     population[worst2_idx_global][:] = child_2
                     fit_pop[worst2_idx_global] = child_2_fitness
-            
+                    gain[worst2_idx_global] = child_2_gain
+
             elif child_2_fitness > fit_pop[worst_idx_global]:
                 population[worst_idx_global][:] = child_2
                 fit_pop[worst_idx_global] = child_2_fitness
-    
+                gain[worst_idx_global] = child_2_gain
+
         start += index_increment
         stop += index_increment
     
-    return population, fit_pop
+    return population, fit_pop, gain
 
 
 def island_migration(population, fit_pop, num_sub_pop, tournament_size, migration_magnitude):
