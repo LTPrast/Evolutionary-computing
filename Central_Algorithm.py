@@ -26,7 +26,7 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-opponents = [4]
+opponents = [6]
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
@@ -58,7 +58,7 @@ def evaluate(x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-np.random.seed(100)
+np.random.seed(99)
 
 n_hidden_neurons = 10
 
