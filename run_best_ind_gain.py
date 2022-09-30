@@ -53,13 +53,16 @@ def simulation(env,x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-opponents = [[1],[4],[6]]
-algos = ['normal', 'island']
+opponents = [[4]]
+algos = ['basic', 'island']
 
 for opponent in opponents:
     for algo in algos:
         
-        np.random.seed(99)
+        if opponent[0] == 4:
+            np.random.seed(100)
+        else:
+            np.random.seed(99)
 
         experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
         if not os.path.exists(experiment_name):
@@ -86,7 +89,7 @@ for opponent in opponents:
         ind_gains = []
 
         #best_solutions = pd.read_csv(f'./{experiment_name}/{experiment_name}_highest_gain.csv',delimiter=",")
-        best_solutions = pd.read_csv(f'./{experiment_name}/island_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
+        best_solutions = pd.read_csv(f'./{experiment_name}/{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
         best_solutions = best_solutions.to_numpy()
         
         # number of times for this experiment to be repeated
@@ -95,10 +98,10 @@ for opponent in opponents:
         for i in range(nr_trials):
 
             gains = []
-            for j in range(5):
-                agent_nn = np.array(best_solutions[i][1:],dtype=np.float32)
-                f, p, e = simulation(env,agent_nn)
-                gains.append(p - e)
+            
+            agent_nn = np.array(best_solutions[i][1:],dtype=np.float32)
+            f, p, e = simulation(env,agent_nn)
+            gains.append(p - e)
             
             ind_gains.append(np.mean(gains))
 
@@ -111,6 +114,6 @@ for opponent in opponents:
         with open(experiment_name+'/'+experiment_name+'_ind_gains', "wb") as file:   #Pickling
             pickle.dump(ind_gains, file)
 
-    comp_algos_boxplots(f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}')
+    comp_algos_boxplots(f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}', opponent[0])
 
     

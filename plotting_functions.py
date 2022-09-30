@@ -237,7 +237,7 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
     plt.show()
     return
 
-def comp_algos_boxplots(experiment_name_1, experiment_name_2):
+def comp_algos_boxplots(experiment_name_1, experiment_name_2, enemy):
     """
     Comparing two experiments with diffeent EAs
     
@@ -263,8 +263,8 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     plt.xlabel("EA",fontsize=15)
     plt.ylabel("Individual Gain", fontsize=15)
     plt.tick_params(axis='both', which='major', labelsize=15)
-    plt.xticks([1,2],['Normal', 'Island'])
-    plt.title("EA Comparison", fontsize=15)
+    plt.xticks([1,2],['Basic', 'Island'])
+    plt.title("EA Comparison for enemy %i" % (enemy), fontsize=15)
     plt.savefig(f'./{experiments[0]}/island_and_{experiments[0]}_boxplots.jpg', dpi=300)
     return
 
