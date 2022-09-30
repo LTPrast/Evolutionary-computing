@@ -53,7 +53,7 @@ def simulation(env,x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-opponents = [[4]]
+opponents = [[1]]
 algos = ['basic', 'island']
 
 for opponent in opponents:

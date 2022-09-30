@@ -253,9 +253,9 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2, enemy):
     for i in range(2):
         with open(f'./{experiments[i]}/{experiments[i]}_ind_gains', "rb") as file:
             ind_gains = pickle.load(file)
+            #print(ind_gains)
         
-        box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True,
-            medianprops=dict(color='black'))
+        box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True, medianprops=dict(color='black'))
         plt.setp(box["boxes"], facecolor=colour[i])
     
 
@@ -264,7 +264,7 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2, enemy):
     plt.ylabel("Individual Gain", fontsize=15)
     plt.tick_params(axis='both', which='major', labelsize=15)
     plt.xticks([1,2],['Basic', 'Island'])
-    plt.title("EA Comparison for enemy %i" % (enemy), fontsize=15)
+    plt.title("EA Comparison for Enemy %i" % (enemy), fontsize=15)
     plt.savefig(f'./{experiments[0]}/island_and_{experiments[0]}_boxplots.jpg', dpi=300)
     return
 
