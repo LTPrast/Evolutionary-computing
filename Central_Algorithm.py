@@ -26,14 +26,14 @@ from survival_methods import *
 
 ######################### SET-UP FRAMEWORK ###################################
 
-opponents = [6]
+opponents = [4]
 
 # choose this for not using visuals and thus making experiments faster
 headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     
-experiment_name = 'basic_algo_enemy_'+str(opponents)[1]
+experiment_name = 'new_params_basic_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
     
@@ -58,7 +58,7 @@ def evaluate(x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-np.random.seed(99)
+np.random.seed(100)
 
 n_hidden_neurons = 10
 
@@ -92,8 +92,8 @@ npop = 200                              # Population size
 gens = 100                              # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
-tournament_size = 50                    # Number of individuals taking part in tournamnet selection 
-sigma = 0.1                             # gene mutation probability 
+tournament_size = 10                    # Number of individuals taking part in tournamnet selection 
+sigma = 0.2                             # gene mutation probability 
 
     
 #################### PERFORM EXPERIMENT #####################################

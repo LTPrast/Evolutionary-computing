@@ -30,9 +30,9 @@ headless = True
 if headless:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-opponents = [1]
+opponents = [4]
 
-experiment_name = 'island_algo_enemy_'+str(opponents)[1]
+experiment_name = 'new_params_island_algo_enemy_'+str(opponents)[1]
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
@@ -56,7 +56,7 @@ def evaluate(x):
 
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
-np.random.seed(99)
+np.random.seed(100)
 
 n_hidden_neurons = 10
 difficulty = 2
@@ -84,12 +84,12 @@ dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
 dist_std = 0.1                          # mean of distribution to draw sizes for gene mutation
 npop = 200                              # Population size
-num_sub_pop = 20                        # number of subpopulations
+num_sub_pop = 10                        # number of subpopulations
 gens = 100                              # number of generations
 individuals_deleted = 40                # number of individuals killed every generation
 num_offspring = individuals_deleted     # equal number of offspring to keep constant population size
-tournament_size = int(round(npop/num_sub_pop * 0.25))# Number of individuals taking part in tournamnet selection 
-sigma = 0.1                             # gene mutation probability 
+tournament_size = int(round(npop/num_sub_pop * 0.05))# Number of individuals taking part in tournamnet selection 
+sigma = 0.2                             # gene mutation probability 
 migration_rate = 5                      # every how many generations communication occurs between subpopulation
 migration_magnitude = 4                 # how many members cross over to a new island
 

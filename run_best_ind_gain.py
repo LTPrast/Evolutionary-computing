@@ -64,7 +64,7 @@ for opponent in opponents:
         else:
             np.random.seed(99)
 
-        experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
+        experiment_name = f'new_params_{algo}_algo_enemy_{opponent[0]}'
         if not os.path.exists(experiment_name):
             os.makedirs(experiment_name)
 
@@ -89,7 +89,7 @@ for opponent in opponents:
         ind_gains = []
 
         #best_solutions = pd.read_csv(f'./{experiment_name}/{experiment_name}_highest_gain.csv',delimiter=",")
-        best_solutions = pd.read_csv(f'./{experiment_name}/{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
+        best_solutions = pd.read_csv(f'./{experiment_name}/new_params_{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
         best_solutions = best_solutions.to_numpy()
         
         # number of times for this experiment to be repeated
@@ -114,6 +114,6 @@ for opponent in opponents:
         with open(experiment_name+'/'+experiment_name+'_ind_gains', "wb") as file:   #Pickling
             pickle.dump(ind_gains, file)
 
-    comp_algos_boxplots(f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}', opponent[0])
+    comp_algos_boxplots(f'new_params_{algos[0]}_algo_enemy_{opponent[0]}', f'new_params_{algos[1]}_algo_enemy_{opponent[0]}', opponent[0])
 
     
