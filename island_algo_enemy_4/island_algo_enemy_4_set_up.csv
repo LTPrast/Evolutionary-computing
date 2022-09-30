@@ -1,2 +1,2 @@
 ,Population size,Generations,Killed per generation,Offspring number,Tournament size,Gene mutation probability,Enemies,Level,Iterations:,Experiment Name,Execution Time,Migration Rate,Migration Magnitude,Number of subpopulations
-0,200,100,40,40,2,0.1,4,2,10,island_algo_enemy_4,2.0867367492781748,5,4,20
+0,200,100,40,40,2,0.1,4,2,10,island_algo_enemy_4,2.1847048395209843,5,4,20
