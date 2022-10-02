@@ -1,0 +1,43 @@
+
+
+MESSAGE: Pygame initialized for simulation.
+
+RUN: run status: enemy: 1; fitness: 86.71679627126201; player life: 20; enemy life: 0; time: 197
+
+RUN: run status: enemy: 1; fitness: 84.40853545289202; player life: 4; enemy life: 0; time: 400
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 84.77695410451697; player life: 6; enemy life: 0; time: 338
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 87.11679627126202; player life: 24; enemy life: 0; time: 197
+
+RUN: run status: enemy: 1; fitness: 88.58506424239101; player life: 38; enemy life: 0; time: 184
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 86.29955642660931; player life: 20; enemy life: 0; time: 299
+
+RUN: run status: enemy: 1; fitness: 94.02326625757942; player life: 90; enemy life: 0; time: 145
+
+RUN: run status: enemy: 1; fitness: 91.33740496697304; player life: 64; enemy life: 0; time: 158
+
+RUN: run status: enemy: 1; fitness: 77.89224472101786; player life: 38; enemy life: 10.0; time: 1000
+
+RUN: run status: enemy: 1; fitness: 93.77695410451697; player life: 96; enemy life: 0; time: 338
