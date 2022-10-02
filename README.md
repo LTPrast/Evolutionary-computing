@@ -10,13 +10,13 @@ Following this both algorithms were tuned to allow a fair comparisson. First an 
 ## Repository Set-Up
 This section will give a brief overview of the differen files and folders in the repository.
 
-### Central Files
-Main algorithm files:
+### Main Algorithm Files
+Main algorithm files: <br>
 `controlller.py` is the neural network. <br>
 `basic_algorithm.py` contains the basic evolutionary algorithm. <br>
 `island_algorithm.py` contains the central algorithm for the island model. <br>
 
-Methods files: <br>
+### Methods Files
 `parent_selection_methods.py` contains functions for the selction of individuals to produce offspring. <br>
 `survival_methods.py` contains the functions to maintain population size and hence delte a certain number of individuals. <br>
 `mutation_recombination_methods.py` contains the functions by which offspring is created given the genome of the parents. <br>
