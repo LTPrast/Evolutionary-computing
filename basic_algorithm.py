@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 16 11:36:26 2022
-
-@author: arong
-"""
-
 # imports framework
 import sys
 sys.path.insert(0, 'evoman')
@@ -44,13 +37,11 @@ def simulation(env,x):
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env,y), x)))
 
-
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
 np.random.seed(99)
 
 n_hidden_neurons = 10
-
 opponents = [4]
 difficulty = 2
 
@@ -66,13 +57,11 @@ env = Environment(experiment_name=experiment_name,
 # default environment fitness is assumed for experiment
 env.state_to_log() # checks environment state
 
-
 # genetic algorithm params
 run_mode = 'train' # train or test
 
 # number of weights for multilayer with 10 hidden neurons
 n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
-
 
 dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
@@ -84,7 +73,6 @@ num_offspring = individuals_deleted     # equal number of offspring to keep cons
 tournament_size = 20                    # Number of individuals taking part in tournamnet selection 
 sigma = 0.1                             # gene mutation probability 
 
-    
 #################### PERFORM EXPERIMENT #####################################
 
 start_time = time.time()
@@ -92,8 +80,7 @@ start_time = time.time()
 # number of times for this experiment to be repeated
 experiment_iterations = 10
 
-# create empty arrays to store values for each generation if every experiment 
-# iteration
+# create empty arrays to store values for each generation of every experiment iteration
 average_fitness_data = np.empty((0, gens+1), float)
 max_fitness_data = np.empty((0,gens+1), float)
 fitness_std_data = np.empty((0,gens+1), float)
@@ -103,8 +90,6 @@ for iteration in range(experiment_iterations):
 
     # Create Populations, one individual is one row in a matrix
     population = np.random.uniform(dom_l, dom_u, (npop, n_vars))
-    
-        
     # find fitness of each member of the initial population
     fit_pop = evaluate(population)
     # store population size to later analyze if remaining constant
@@ -132,17 +117,13 @@ for iteration in range(experiment_iterations):
             parent_2 = tournament_selection(population, fit_pop, tournament_size)
             
             if i % 2 == 0:
-
                 child_1, child_2 = simple_arithmetic_recombination(parent_1, parent_2)
                 child_1 = mutation(child_1, sigma, dist_std)
                 child_2 = mutation(child_2, sigma, dist_std)
-            
             else: 
-
                 child_1 = mutation(parent_1, sigma, dist_std)
                 child_2 = mutation(parent_2, sigma, dist_std)
                 
-            
             # append each child to children array
             children = np.append(children, np.array([child_1]), axis=0)
             children = np.append(children, np.array([child_2]), axis=0)
@@ -168,8 +149,6 @@ for iteration in range(experiment_iterations):
     fitness_std_data = np.append(fitness_std_data, [np.array(std)], axis=0)
     best_solution_data = np.append(best_solution_data, [np.array(population[best_solution_index][:])], axis=0)
 
-    
-
 end_time = time.time()
 
 execution_time = ((end_time-start_time)/60)/60
@@ -184,14 +163,15 @@ def save_file(data, file_name, experiment_name, cols=True, rows=True):
     if cols == True:
         columns = ['Generation_'+str(i+1) for i in range(gens+1)]
         df.columns = columns
+
     if rows == True:
         rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
         df.index = rows
+
     df.to_csv(experiment_name+'/'+experiment_name+file_name)
     return
 
 # One file to store set-up
-
 set_up_dict = {
   "Population size": npop,
   "Generations": gens,

@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 23 15:19:23 2022
-
-@author: arong
-"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -42,11 +35,9 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2):
         number_of_generations = len(mean_fitness[0].values[0]) - 1
         number_of_trials = len(mean_fitness[0].values)
     
-
     # Do for the different parameters
     final_values = []
     for i in range(len(mean_fitness)):
-        
         # Create lists
         average_mean_fitness = []
         std_mean_fitness = []
@@ -59,7 +50,6 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2):
             average_mean_fitness.append(np.mean(mean_fitness[i][generation]))
             std_mean_fitness.append(np.std(mean_fitness[i][generation]))
             
-    
         generations = np.arange(1, number_of_generations+1, 1)
         average_mean_fitness = np.array(average_mean_fitness)
         std_mean_fitness = np.array(std_mean_fitness)
@@ -69,7 +59,6 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2):
         # Plot fitness lines
         plt.plot(generations, average_mean_fitness, linestyle='dashed' , label=labels_mean[i])
         
-    
     # Plot all
     plt.legend(fontsize=20)
     plt.xlabel("Generation", fontsize=20)
@@ -80,11 +69,13 @@ def tuning_plot_mean_fitness(parameter_1, parameter_2, name_1, name_2):
     
     print("sorted list from worst to best measured by mean fitness after ", number_of_generations, " generations")
     index_sort = np.argsort(np.array(final_values))  
+    
     for index in index_sort:
-        print('mean fitness = '+ str(final_values[index]) + ' for '+name_1+' = '+str(parameters[index][0])+' and '+name_2+' =' +str(parameters[index][1]))
+        print('mean fitness = ' + str(final_values[index]) + 
+              ' for ' + name_1 + ' = ' + str(parameters[index][0]) + 
+              ' and ' + name_2 + ' =' + str(parameters[index][1]))
     
-    return
-    
+    return 
 
 def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     """
@@ -102,7 +93,6 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     
     # For each sigma read file and append the dataframe
     for par1 in parameter_1:
-        
         for par2 in parameter_2:
             max_fitness_cur = pd.read_csv(f'./TSP_{par1}_sigma_{par2}/TSP_{par1}_sigma_{par2}_max_fitness.csv',delimiter=",")
             max_fitness.append(max_fitness_cur)
@@ -114,11 +104,9 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
         number_of_generations = len(max_fitness[0].values[0]) - 1
         number_of_trials = len(max_fitness[0].values)
     
-
     # Do for the different parameters
     final_values = []
     for i in range(len(max_fitness)):
-        
         # Create lists
         average_max_fitness = []
         std_max_fitness = []
@@ -131,7 +119,6 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
             average_max_fitness.append(np.mean(max_fitness[i][generation]))
             std_max_fitness.append(np.std(max_fitness[i][generation]))
             
-    
         generations = np.arange(1, number_of_generations+1, 1)
         average_max_fitness = np.array(average_max_fitness)
         std_max_fitness = np.array(std_max_fitness)
@@ -141,7 +128,6 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
         # Plot fitness lines
         plt.plot(generations, average_max_fitness, linestyle='dashed', label=labels_max[i])
         
-    
     # Plot all
     plt.legend(fontsize=20)
     plt.xlabel("Generation", fontsize=20)
@@ -151,7 +137,9 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     plt.show()
     
     print("sorted list from worst to best measured by max fitness after ", number_of_generations, " generations")
-    index_sort = np.argsort(np.array(final_values))  
+
+    index_sort = np.argsort(np.array(final_values))
+
     for index in index_sort:
         print('max fitness = '+ str(final_values[index]) + ' for '+name_1+' = '+str(parameters[index][0])+' and '+name_2+' =' +str(parameters[index][1]))
     
@@ -165,6 +153,7 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
     experiment_name_2 = name of second experiment to find directory
     labels = list of labels for legend in right order i.e. 1 then 2
     """
+
     experiments = [experiment_name_1, experiment_name_2]
     mean_fitness = []
     max_fitness = []
@@ -234,6 +223,7 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
     plt.tick_params(axis='both', which='major', labelsize=20)
     plt.title("EA Comparisson", fontsize=20)
     plt.show()
+
     return
 
 def comp_algos_boxplots(experiment_name_1, experiment_name_2):
@@ -252,11 +242,9 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     for i in range(2):
         ind_gains = pd.read_csv(f'./{experiments[i]}/{experiments[i]}_ind_gain.csv',delimiter=",")
         
-        box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True,
-            medianprops=dict(color='black'))
+        box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True, medianprops=dict(color='black'))
         plt.setp(box["boxes"], facecolor=colour[i])
     
-
     # Plot all
     plt.xlabel("EA",fontsize=15)
     plt.ylabel("Individual Gain", fontsize=15)
@@ -265,6 +253,7 @@ def comp_algos_boxplots(experiment_name_1, experiment_name_2):
     plt.title("EA Comparison", fontsize=15)
     plt.savefig(pd.to_csv(f'./{experiments[i]}/{experiments[i]}_boxplot.csv',delimiter=","))
     plt.show()
+
     return
 
 def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
@@ -280,7 +269,6 @@ def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name
     
     # For each sigma read file and append the dataframe
     for par1 in parameter_1:
-        
         for par2 in parameter_2:
             max_fitness_cur = pd.read_csv(f'./TSP_{par1}_sigma_{par2}/TSP_{par1}_sigma_{par2}_max_fitness.csv',delimiter=",")
             max_fitness.append(max_fitness_cur)
@@ -290,13 +278,12 @@ def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name
             
         number_of_generations = len(max_fitness[0].values[0]) - 1
 
-
     # Do for the different parameters
     x_axis = []
     y_axis = []
     final_values = []
+
     for i in range(len(max_fitness)):
-        
         # Create lists
         average_max_fitness = []
         std_max_fitness = []
@@ -309,7 +296,6 @@ def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name
             average_max_fitness.append(np.mean(max_fitness[i][generation]))
             std_max_fitness.append(np.std(max_fitness[i][generation]))
             
-    
         generations = np.arange(1, number_of_generations+1, 1)
         average_max_fitness = np.array(average_max_fitness)
         std_max_fitness = np.array(std_max_fitness)
@@ -330,6 +316,5 @@ def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name
     ax.set_xlabel(name_1, fontsize=20, rotation=150)
     ax.set_ylabel(name_2, fontsize=20)
     ax.set_zlabel('Max Fitness', fontsize=20, rotation=60)
+
     return
-
-

@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import sys
 
-# Print function
 def print_mean_and_max(folder, experiment, print=False):
     """
     Print the mean and maximum fitness at the last generation
@@ -32,7 +31,6 @@ def print_mean_and_max(folder, experiment, print=False):
         print('mean std = ', std_mean_fitness)
 
     return experiment, average_mean_fitness, average_max_fitness
-
 
 # get mean and max fitness of a run
 exps = []; avg_mean_fits = []; avg_max_fits = []

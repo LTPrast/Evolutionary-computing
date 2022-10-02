@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 15 19:19:04 2022
-
-@author: arong
-"""
-
 import numpy as np
 
 def tournament_selection(population, fit_pop, k):
@@ -14,6 +7,7 @@ def tournament_selection(population, fit_pop, k):
     
     The function return the winner of the tournamanet.
     """
+
     # pick random index of population and set current winner to this indes
     max_idx = len(fit_pop)
     parent_idx = np.random.randint(0, max_idx)
@@ -30,4 +24,3 @@ def tournament_selection(population, fit_pop, k):
     parent = population[parent_idx][:]
 
     return parent
-

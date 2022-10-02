@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 28 17:06:26 2022
-
-@author: liza
-"""
-
-# imports framework
 import sys
 sys.path.insert(0, 'evoman')
 from environment import Environment
@@ -39,6 +31,7 @@ def compare_algorithms(experiment_name_1, experiment_name_2, enemy):
     enemy = the opponent for both experiments
     labels = list of labels for legend in right order i.e. 1 then 2
     """
+
     experiments = [experiment_name_1, experiment_name_2]
     mean_fitness = []
     max_fitness = []
@@ -114,8 +107,8 @@ def compare_algorithms(experiment_name_1, experiment_name_2, enemy):
     plt.xlabel("Generation",fontsize=20)
     plt.title(f"EA Comparison for Enemy {enemy}", fontsize=20)
     plt.savefig(f'./{experiments[0]}/EA_comparison_fitness_enemy_{enemy}.jpg', dpi=300)
-    return
 
+    return
 
 ####################### RUN ONCE ###########################
 
@@ -132,7 +125,6 @@ params = 'original'
 for opponent in opponents:
     # Get the data
     for algo in algos:
-
         experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
 
         # initializes simulation in individual evolution mode, for single static enemy.
@@ -153,6 +145,7 @@ for opponent in opponents:
         else:
             best_solutions = pd.read_csv(f'./{experiment_name}/{experiment_name}_highest_gain.csv',delimiter=",")
             best_solutions_extra = pd.read_csv(f'./{experiment_name}_extra_trials/{experiment_name}_extra_trials_highest_gain.csv',delimiter=",")
+
         best_solutions_extra = best_solutions_extra.to_numpy()
         best_solutions = best_solutions.to_numpy()
         print(best_solutions.shape)
@@ -163,7 +156,6 @@ for opponent in opponents:
         nr_trials = best_solutions.shape[0]
 
         for i in range(nr_trials):
-
             gains = []
             
             agent_nn = np.array(best_solutions[i][1:],dtype=np.float32)

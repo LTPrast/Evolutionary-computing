@@ -1,17 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 21 12:14:25 2022
-
-@author: arong
-"""
-
 import time
 import numpy as np
 import matplotlib.pyplot as plt
 from parent_selection_methods import *
 from mutation_recombination_methods import *
 from survival_methods import *
-
 
 def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament_size, dist_std, sigma, evaluate):
     """
@@ -44,11 +36,9 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
             parent_2 = tournament_selection(sub_pop, fit_sub_pop, tournament_size)
             
             if y % 2 == 0:
-                
                 child_1, child_2 = simple_arithmetic_recombination(parent_1, parent_2)
                 child_1 = gaussian_mutation(child_1, sigma, dist_std)
                 child_2 = gaussian_mutation(child_2, sigma, dist_std)
-            
             else:
                 child_1 = gaussian_mutation(parent_1, sigma, dist_std)
                 child_2 = gaussian_mutation(parent_2, sigma, dist_std)
@@ -74,7 +64,7 @@ def island_mutations(population, fit_pop, num_sub_pop, num_offspring, tournament
                 if child_2_fitness > fit_pop[worst2_idx_global]:
                     population[worst2_idx_global][:] = child_2
                     fit_pop[worst2_idx_global] = child_2_fitness
-            
+
             elif child_2_fitness > fit_pop[worst_idx_global]:
                 population[worst_idx_global][:] = child_2
                 fit_pop[worst_idx_global] = child_2_fitness
@@ -124,13 +114,11 @@ def island_migration(population, fit_pop, num_sub_pop, tournament_size, migratio
 
                 worst_individual_global_index = destination_island_start + worst_individual_local_index
                 
-                
                 population[worst_individual_global_index][:] = migrant
                 fit_pop[worst_individual_global_index] = migrant_fitness
     
     return population, fit_pop
             
-
 def tournament_selection_migration(population, fit_pop, k):
     """
     This function preforms a tournament selection of the population, the inputs
@@ -138,6 +126,7 @@ def tournament_selection_migration(population, fit_pop, k):
     
     The function return the winner of the tournamanet.
     """
+
     # pick random index of population and set current winner to this indes
     max_idx = len(fit_pop)
     parent_idx = np.random.randint(0, max_idx)
@@ -155,7 +144,6 @@ def tournament_selection_migration(population, fit_pop, k):
 
     return parent, parent_idx
                 
-
 def plot_sub_populations(sub_plot_data, num_sub_pop, gens, trial_num,  max_fit=True):
     
     index_increment = int(len(sub_plot_data[0][:])/num_sub_pop)
@@ -166,6 +154,7 @@ def plot_sub_populations(sub_plot_data, num_sub_pop, gens, trial_num,  max_fit=T
     for i in range(gens): # row
         start_idx = 0
         stop_idx = index_increment
+
         for j in range(num_sub_pop):
             fitness_current_generation = sub_plot_data[i][:]
             mean_fitness[j][i] = np.mean(fitness_current_generation[start_idx:stop_idx])
@@ -177,12 +166,9 @@ def plot_sub_populations(sub_plot_data, num_sub_pop, gens, trial_num,  max_fit=T
     colour = ['lightskyblue', 'blue','pink', 'orange', 'red']
     
     if max_fit:
-    
         for x in range(num_sub_pop):
-
             plt.plot(generations, max_fitness[x], linestyle='dotted' ,color=colour[x], label='max sub-population '+ str(x))
-            plt.title('Max Fitness Iteration '+str(trial_num))
-            
+            plt.title('Max Fitness Iteration '+str(trial_num))           
     else: 
         for x in range(num_sub_pop):
             plt.plot(generations, mean_fitness[x], linestyle='dashed' ,color=colour[x], label='mean sub-population '+ str(x))
@@ -192,6 +178,3 @@ def plot_sub_populations(sub_plot_data, num_sub_pop, gens, trial_num,  max_fit=T
     plt.show()
     
     return
-        
-    
-    
