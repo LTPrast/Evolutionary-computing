@@ -45,7 +45,7 @@ This folder contains the results of experimentation with different distribution 
 This folder contains the experiment results for exploring optimum tournamnet size for parent selection as well as muatation probability of an individual gene. It also contains graphs which plot some of the signifcant experiments. The outcome was to use a tournament size of 25% of the population along with a mutation probablity of 0.2.
 
 ### Data/tuning/tuning_island_model folder
-This folder contains the island_algorithm_tuning which is identical to the normal algorithm however it is looped over several paramters to optimize the tuning process. Furthermore it contains the results of all experiments along with some plots. The outcome of these experiments where to use XXX subpopulations with a migration frequency of XXX and a migration magnitude of XXX.
+This folder contains the island_algorithm_tuning which is identical to the normal algorithm however it is looped over several paramters to optimize the tuning process. Furthermore it contains the results of all experiments along with some plots. The outcome of these experiments where to use 20 subpopulations with a migration frequency of 5 and a migration magnitude of 4.
 
 ### Data/final_results folder
 This folder contains the data of all experiments along with the plots comparing the two algorithm on several enemies.
