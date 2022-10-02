@@ -7,9 +7,7 @@ The approach to this project was to construct both the basic algorithm as well a
 
 Following this both algorithms were tuned to allow a fair comparisson. First an attempt was made to identify the best form of mutating indiviudlas i.e.  from which distribution and with which standrad deviations samples should be drawn to mutate genes in an indiviudal genome. Secondly for the basic algorithm two parameters were tuned namely the tournament size for parent selction as well as the mutation proability, the probability of mutating an individual gene during the mutation process. Given these values the island model was tuned for three further parameters: the number of subpopulations (islands), the migration frequency (how often individuals migrate) and the migration magnitude (how many individuals move betwen islands).   
 
-Demo_controlller.py is the neural network <br>
-dummy_demo.py is the file that you can adapt <br>
-optimization_specialist_demo.py is the example file provided. <br>
+controlller.py is the neural network <br>
 Evoman file is the framework of the game which you should not change <br>
 dummy_demo file is the repository that keeps all the information of your runs <br>
 individual_demo file is the repository that keeps all the information of the the run of the demo that they provided <br>
