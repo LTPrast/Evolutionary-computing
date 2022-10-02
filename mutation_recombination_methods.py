@@ -3,6 +3,14 @@ import numpy as np
 ################### Recombination Methods ###################################
 
 def simple_arithmetic_recombination(parent_1, parent_2):
+    """
+    This function takes two individuals as indputs and return two offspring
+    created using simple arithmetic combination. A random point k is chosen in
+    the length of the genome. The first child consists of the first parents 
+    genome up to point k, after point k it is the average of the genome of both
+    parents. Child 2 up to point k consits of the genome of parent 2 while after
+    point k it is again the average genome of both parents.
+    """
         
     # pick random crossover point
     k = np.random.randint(0, len(parent_1))
