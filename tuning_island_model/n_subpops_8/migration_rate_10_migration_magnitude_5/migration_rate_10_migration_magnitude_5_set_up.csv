@@ -1,0 +1,2 @@
+,Population size,Generations,Killed per generation,Offspring number,Tournament size,Gene mutation probability,Enemies,Level,Iterations:,Experiment Name,Execution Time,Migration Rate,Migration Magnitude,Number of subpopulations
+0,200,65,40,40,6,0.1,4,2,10,migration_rate_10_migration_magnitude_5,1.0071288692951201,10,5,8
