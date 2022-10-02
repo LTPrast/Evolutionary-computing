@@ -11,8 +11,8 @@ Following this both algorithms were tuned to allow a fair comparisson. First an 
 This section will give a brief overview of the differen files and folders in the repository.
 
 ### Central Files
-demo_controlller.py is the neural network. <br>
-Central_Algorithm.py contains the basic evolutionary algorithm. <br>
+controlller.py is the neural network. <br>
+basic_algorithm.py contains the basic evolutionary algorithm. <br>
 parent_selection_methods.py contains functions for the selction of individuals to produce offspring. <br>
 survival_methods.py contains the functions to maintain population size and hence delte a certain number of individuals. <br>
 mutation_recombination_methods.py contains the functions by which offspring is created given the genome of the parents. <br>
@@ -29,17 +29,20 @@ run_best_ind_gain.py ...........................................................
 ### evoman folder
 This folder contains the evoman framework which should not be altered.
 
-### tuning_mutation_distribution folder
-This folder contains the results of experimentation with different distribution types (mainly unifrom and gaussian) from which mutations to individual nodes are drawn. Furthermore in contains graphs of the outcomes. The result of these experiments was to use a gaussian distribution with mean and a standrad deviation of 0.1.
-
-### tuning_simple_model_params folder
-This folder contains the experiment results for exploring optimum tournamnet size for parent selection as well as muatation probability of an individual gene. It also contains graphs which plot some of the signifcant experiments. The outcome was to use a tournament size of 25% of the population along with a mutation probablity of 0.2.
+### Data folder
+This folder contains all our data folder and includes our tuning and final run folders.
 
 ### trial_island_model_10_runs folder
 This folder contains the results of a trial run with the island model along with graphs plotting the devlopment of the different islands to develop an intution for the working of the model. 
 
-### tuning_island_model folder
+### Data/tuning/tuning_mutation_distribution folder
+This folder contains the results of experimentation with different distribution types (mainly unifrom and gaussian) from which mutations to individual nodes are drawn. Furthermore in contains graphs of the outcomes. The result of these experiments was to use a gaussian distribution with mean and a standrad deviation of 0.1.
+
+### Data/tuning/tuning_simple_model_params folder
+This folder contains the experiment results for exploring optimum tournamnet size for parent selection as well as muatation probability of an individual gene. It also contains graphs which plot some of the signifcant experiments. The outcome was to use a tournament size of 25% of the population along with a mutation probablity of 0.2.
+
+### Data/tuning/tuning_island_model folder
 This folder contains the island_algorithm_tuning which is identical to the normal algorithm however it is looped over several paramters to optimize the tuning process. Furthermore it contains the results of all experiments along with some plots. The outcome of these experiments where to use XXX subpopulations with a migration frequency of XXX and a migration magnitude of XXX.
 
-### final_results folder
+### Data/final_results folder
 This folder contains the data of all experiments along with the plots comparing the two algorithm on several enemies.
