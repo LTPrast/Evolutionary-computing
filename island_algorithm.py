@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 21 13:05:26 2022
-
-@author: arong
-"""
-
 # imports framework
 import sys
 sys.path.insert(0, 'evoman')
@@ -43,13 +36,11 @@ def simulation(env,x):
 def evaluate(x):
     return np.array(list(map(lambda y: simulation(env,y), x)))
 
-
 ####################### SET EXPERIMENT PARAMETERS ###########################
 
 np.random.seed(99)
 
 n_hidden_neurons = 10
-
 opponents = [4]
 difficulty = 2
 
@@ -65,13 +56,11 @@ env = Environment(experiment_name=experiment_name,
 # default environment fitness is assumed for experiment
 env.state_to_log() # checks environment state
 
-
 # genetic algorithm params
 run_mode = 'train' # train or test
 
 # number of weights for multilayer with 10 hidden neurons
 n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
-
 
 dom_u = 1                               # Max weight for neural network
 dom_l = -1                              # Min weight for neural network
@@ -105,10 +94,11 @@ for iteration in range(experiment_iterations):
     # find fitness of each member of the initial population
     fit_pop = evaluate(population)
     subpop_plot_data = np.array([fit_pop])
-    
-    best_solution_index = np.argmax(fit_pop)
+
     # find the fitness of the best solution
+    best_solution_index = np.argmax(fit_pop)
     fitness_of_best_solution = [fit_pop[best_solution_index]]
+
     # find the mean fitness of the population
     mean = [np.mean(fit_pop)]
     
@@ -125,7 +115,6 @@ for iteration in range(experiment_iterations):
         fitness_of_best_solution.append(fit_pop[best_solution_index])
         mean.append(np.mean(fit_pop))
 
-    
     plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=True)
     plot_sub_populations(subpop_plot_data, num_sub_pop, gens, iteration, max_fit=False)
     
@@ -147,10 +136,13 @@ def save_file(data, file_name, experiment_name, cols=True, rows=True):
     if cols == True:
         columns = ['Generation_'+str(i+1) for i in range(gens+1)]
         df.columns = columns
+
     if rows == True:
         rows = ['Trial_'+str(i+1) for i in range(experiment_iterations)]
         df.index = rows
+
     df.to_csv(experiment_name+'/'+experiment_name+file_name)
+
     return
 
 # One file to store set-up

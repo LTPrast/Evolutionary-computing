@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 28 17:06:26 2022
-
-@author: liza
-"""
-
-# imports framework
 import sys
 sys.path.insert(0, 'evoman')
 from environment import Environment
@@ -39,6 +31,7 @@ def compare_algorithms(experiment_name_1, experiment_name_2, enemy):
     enemy = the opponent for both experiments
     labels = list of labels for legend in right order i.e. 1 then 2
     """
+
     experiments = [experiment_name_1, experiment_name_2]
     mean_fitness = []
     max_fitness = []
@@ -118,8 +111,8 @@ def compare_algorithms(experiment_name_1, experiment_name_2, enemy):
     plt.xlabel("Generation",fontsize=21)
     plt.title(f"EA Comparison for Enemy {enemy}", fontsize=21)
     plt.savefig(f'./{experiments[0]}/EA_comparison_fitness_enemy_{enemy}.jpg', dpi=300)
-    return
 
+    return
 
 ####################### RUN ONCE ###########################
 
@@ -133,85 +126,83 @@ c = 0
 # Choose which parameters to plot
 params = 'original'
 
-# for opponent in opponents:
-#     # Get the data
-#     for algo in algos:
+for opponent in opponents:
+    # Get the data
+    for algo in algos:
+        experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
 
-#         experiment_name = f'{algo}_algo_enemy_{opponent[0]}'
+        # initializes simulation in individual evolution mode, for single static enemy.
+        env = Environment(experiment_name=experiment_name,
+                        enemies=opponent,
+                        playermode="ai",
+                        player_controller=player_controller(10),
+                        enemymode="static",
+                        level=2,
+                        speed="fastest")
 
-#         # initializes simulation in individual evolution mode, for single static enemy.
-#         env = Environment(experiment_name=experiment_name,
-#                         enemies=opponent,
-#                         playermode="ai",
-#                         player_controller=player_controller(10),
-#                         enemymode="static",
-#                         level=2,
-#                         speed="fastest")
+        # create empty arrays to store values for every experiment
+        ind_gains = []
 
-#         # create empty arrays to store values for every experiment
-#         ind_gains = []
+        if params == 'new':
+            best_solutions = pd.read_csv(f'./{experiment_name}/new_params_{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
+            best_solutions = best_solutions.to_numpy()
+        else:
+            best_solutions = pd.read_csv(f'./{experiment_name}/{experiment_name}_highest_gain.csv',delimiter=",")
+            best_solutions_extra = pd.read_csv(f'./{experiment_name}_extra_trials/{experiment_name}_extra_trials_highest_gain.csv',delimiter=",")
+            best_solutions_extra = best_solutions_extra.to_numpy()
+            best_solutions = best_solutions.to_numpy()
+            best_solutions = np.concatenate((best_solutions, best_solutions_extra))
 
-#         if params == 'new':
-#             best_solutions = pd.read_csv(f'./{experiment_name}/new_params_{algo}_algo_enemy_{opponent[0]}_highest_gain.csv',delimiter=",")
-#             best_solutions = best_solutions.to_numpy()
-#         else:
-#             best_solutions = pd.read_csv(f'./{experiment_name}/{experiment_name}_highest_gain.csv',delimiter=",")
-#             best_solutions_extra = pd.read_csv(f'./{experiment_name}_extra_trials/{experiment_name}_extra_trials_highest_gain.csv',delimiter=",")
-#             best_solutions_extra = best_solutions_extra.to_numpy()
-#             best_solutions = best_solutions.to_numpy()
-#             best_solutions = np.concatenate((best_solutions, best_solutions_extra))
-        
-#         # number of times for this experiment to be repeated
-#         nr_trials = best_solutions.shape[0]
+        # number of times for this experiment to be repeated
+        nr_trials = best_solutions.shape[0]
 
-#         for i in range(nr_trials):
-
-#             gains = []
+        for i in range(nr_trials):
+            gains = []
             
-#             agent_nn = np.array(best_solutions[i][1:],dtype=np.float32)
-#             f, p, e = simulation(env,agent_nn)
-#             gains.append(p - e)
+            agent_nn = np.array(best_solutions[i][1:],dtype=np.float32)
+            f, p, e = simulation(env,agent_nn)
+            gains.append(p - e)
             
-#             ind_gains.append(np.mean(gains))
+            ind_gains.append(np.mean(gains))
 
-#         # save value of runs
-#         with open(experiment_name+'/'+experiment_name+'_ind_gains', "wb") as file:   #Pickling
-#             pickle.dump(ind_gains, file)
+        # save value of runs
+        with open(experiment_name+'/'+experiment_name+'_ind_gains', "wb") as file:   #Pickling
+            pickle.dump(ind_gains, file)
     
-#     # Get plots
-#     experiments = [f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}']
+    # Get plots
+    experiments = [f'{algos[0]}_algo_enemy_{opponent[0]}', f'{algos[1]}_algo_enemy_{opponent[0]}']
     
-#     # Define plot colours (lightblue and lightred)
-#     colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
+    # Define plot colours (lightblue and lightred)
+    colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
 
-#     gains = []
+    gains = []
 
-#     for i in range(2):
-#         with open(f'./{experiments[i]}/{experiments[i]}_ind_gains', "rb") as file:
-#             ind_gains = pickle.load(file)
-#             print(ind_gains)
-#             gains.append(ind_gains)
+    for i in range(2):
+        with open(f'./{experiments[i]}/{experiments[i]}_ind_gains', "rb") as file:
+            ind_gains = pickle.load(file)
+            print(ind_gains)
+            gains.append(ind_gains)
 
-#         box = ax[c].boxplot(ind_gains, positions=[i+1], patch_artist=True, medianprops=dict(color='black'))
-#         plt.setp(box["boxes"], facecolor=colour[i])
+        box = ax[c].boxplot(ind_gains, positions=[i+1], patch_artist=True, medianprops=dict(color='black'))
+        plt.setp(box["boxes"], facecolor=colour[i])
     
-#     _, p = st.ttest_ind(gains[0], gains[1])
-#     print('T test p-value:', p)
+    _, p = st.ttest_ind(gains[0], gains[1])
+    print('T test p-value:', p)
 
-#     _, p = st.ttest_ind(gains[0], gains[1], equal_var=False)
-#     print('Welch test p-value:', p)
+    _, p = st.ttest_ind(gains[0], gains[1], equal_var=False)
+    print('Welch test p-value:', p)
 
-#     # Plot all
-#     ax[c].tick_params(axis='both', which='major', labelsize=18)
-#     ax[c].set_title("Enemy %i" % (opponent[0]), fontsize=18)
+    # Plot all
+    ax[c].tick_params(axis='both', which='major', labelsize=18)
+    ax[c].set_title("Enemy %i" % (opponent[0]), fontsize=18)
 
-#     c += 1
+    c += 1
 
-# # Save plot
-# ax[0].set_ylabel("Individual Gain", fontsize=18)
-# plt.xticks([1,2],['Basic', 'Island'])
-# plt.yticks([-20,0,20,40,60,80,100])
-# plt.savefig(f'./EA_comparison_boxplots.jpg', dpi=300)
+# Save plot
+ax[0].set_ylabel("Individual Gain", fontsize=18)
+plt.xticks([1,2],['Basic', 'Island'])
+plt.yticks([-20,0,20,40,60,80,100])
+plt.savefig(f'./EA_comparison_boxplots.jpg', dpi=300)
 
 ########################### PLOT MAX AND MEAN PLOT ###################################
 

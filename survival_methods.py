@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 15 19:24:15 2022
-
-@author: arong
-"""
-
 import numpy as np
 
 def kill__x_individuals(population, fit_pop, x):
@@ -26,6 +19,3 @@ def kill__x_individuals(population, fit_pop, x):
         fit_pop = np.delete(fit_pop, index)
         
     return population, fit_pop
-
-
-

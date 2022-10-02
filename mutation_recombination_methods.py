@@ -1,15 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 15 19:21:17 2022
-
-@author: arong
-"""
-
 import numpy as np
 
 ################### Recombination Methods ###################################
 
 def simple_arithmetic_recombination(parent_1, parent_2):
+    """
+    This function takes two individuals as indputs and return two offspring
+    created using simple arithmetic combination. A random point k is chosen in
+    the length of the genome. The first child consists of the first parents 
+    genome up to point k, after point k it is the average of the genome of both
+    parents. Child 2 up to point k consits of the genome of parent 2 while after
+    point k it is again the average genome of both parents.
+    """
         
     # pick random crossover point
     k = np.random.randint(0, len(parent_1))
@@ -49,14 +50,15 @@ def mutation(parent, sigma, std, dist='gaussian'):
     """
     child = np.zeros(len(parent))
     
-    for i in range(len(child)):
-        
+    for i in range(len(child)):       
         if np.random.random() < sigma:
             old_gene = parent[i]
+
             if dist == 'gaussian':
                 mutation = np.random.normal(0, std)
             else:
                 mutation = np.random.uniform(-std, std)
+
             new_gene = old_gene + mutation
             
             if -1 < new_gene < 1: 
@@ -64,7 +66,7 @@ def mutation(parent, sigma, std, dist='gaussian'):
             else:
                 new_gene = old_gene - mutation
                 child[i] = new_gene
-            
+
         else:
             child[i] = parent[i]
             
@@ -81,8 +83,7 @@ def reset_or_creep_mutation(parent, resetting_sigma=0.001, creep_sigma=0.2, cree
     child = np.zeros(len(parent))
     
     # for each weight of the individual apply one of the two mutations
-    for i in range(len(child)):
-        
+    for i in range(len(child)):       
         # random resetting with mutation_rate probability
         if np.random.uniform(0,1) <= resetting_sigma:
             child[i] = np.random.uniform(-1, 1)
@@ -91,7 +92,5 @@ def reset_or_creep_mutation(parent, resetting_sigma=0.001, creep_sigma=0.2, cree
             child[i] = parent[i] + np.random.normal(0, creep_std)
         else:
             child[i] = parent[i]
+
     return child
-
-
-        
