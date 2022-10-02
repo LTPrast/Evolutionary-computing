@@ -26,7 +26,7 @@ create_plots.py calls upon these functions to create plots. <br>
 mean_max_csv.py proviudes csv files with the final mean and max fitness values of several experiments. <br>
 run_best_ind_gain.py ........................................................................... <br>
 
-### Evoman folder
+### evoman folder
 This folder contains the evoman framework which should not be altered.
 
 ### tuning_mutation_distribution folder
