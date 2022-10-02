@@ -9,7 +9,7 @@ Created on Wed Sep 21 13:05:26 2022
 import sys
 sys.path.insert(0, 'evoman')
 from environment import Environment
-from controller import player_controller
+from player_controller import player_controller
 
 # imports other libs
 import time

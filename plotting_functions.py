@@ -8,6 +8,7 @@ Created on Fri Sep 23 15:19:23 2022
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
 
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
@@ -157,7 +158,7 @@ def tuning_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
     
     return
 
-def compare_algorithms(experiment_name_1, experiment_name_2):
+def compare_algorithms(experiment_name_1, experiment_name_2, enemy):
     """
     Comparing two experiments with diffeent EAs
     
@@ -177,19 +178,23 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
         max_fitness.append(max_fitness_cur)
     
         # label for line in the plot
-        labels_max.append('max fitness '+f' {experiment}')
+        ylabel = experiment[:len(experiment) - 13]
+        labels_max.append('max fitness '+ylabel)
     
         mean_fitness_cur = pd.read_csv(f'./{experiment}/{experiment}_mean_fitness.csv',delimiter=",")
         mean_fitness.append(mean_fitness_cur)
     
         # label for line in the plot
-        labels_mean.append('mean fitness '+f' {experiment}')
+        labels_mean.append('mean fitness '+ylabel)
     
     number_of_generations = len(max_fitness[0].values[0]) - 1
     number_of_trials = len(max_fitness[0].values)
     
     # Define plot colours
-    colour = ['blue', 'red']
+    colour = ['blue', 'red', 'dodgerblue', 'orange']
+    
+    fig, ax = plt.subplots(1, figsize=(10,8))
+    # fig, ax = plt.subplots(2, figsize=(10,8))
     
     # Do for the different parameters
     for i in range(len(mean_fitness)):
@@ -222,49 +227,32 @@ def compare_algorithms(experiment_name_1, experiment_name_2):
         print('mean = ', average_mean_fitness[-1])
     
         # Plot fitness lines
-        plt.plot(generations, average_max_fitness, linestyle='dashed' ,color=colour[i], label=labels_max[i])
-        plt.fill_between(generations, average_max_fitness-std_max_fitness, average_max_fitness+std_max_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
-        plt.plot(generations, average_mean_fitness, linestyle ='dotted', color=colour[i], label=labels_mean[i])
-        plt.fill_between(generations, average_mean_fitness-std_mean_fitness, average_mean_fitness+std_mean_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
+        ax.plot(generations, average_max_fitness, color=colour[i], label=labels_max[i])
+        ax.fill_between(generations, average_max_fitness-std_max_fitness, average_max_fitness+std_max_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
+        ax.plot(generations, average_mean_fitness, color=colour[i+2], label=labels_mean[i])
+        ax.fill_between(generations, average_mean_fitness-std_mean_fitness, average_mean_fitness+std_mean_fitness, alpha=0.2, edgecolor=colour[i+2], facecolor=colour[i+2])
         
+        ax.legend(fontsize=20)
+        ax.tick_params(axis='both', which='major', labelsize=20)
+        ax.set_yticks([0,20,40,60,80,100])
+        ax.set_ylabel(f"Fitness", fontsize=20)
+        # ax[i].plot(generations, average_max_fitness, color=colour[i], label=labels_max[i])
+        # ax[i].fill_between(generations, average_max_fitness-std_max_fitness, average_max_fitness+std_max_fitness, alpha=0.2, edgecolor=colour[i], facecolor=colour[i])
+        # ax[i].plot(generations, average_mean_fitness, color=colour[i+2], label=labels_mean[i])
+        # ax[i].fill_between(generations, average_mean_fitness-std_mean_fitness, average_mean_fitness+std_mean_fitness, alpha=0.2, edgecolor=colour[i+2], facecolor=colour[i+2])
+        
+        # ax[i].legend(fontsize=20)
+        # ax[i].tick_params(axis='both', which='major', labelsize=20)
+        # ax[i].set_yticks([0,20,40,60,80,100])
+        # ylabel = experiments[i][:len(experiments[i]) - 13]
+        # ax[i].set_ylabel(f"Fitness for {ylabel}", fontsize=20)
+
     # Plot all
-    plt.legend(fontsize=20)
     plt.xlabel("Generation",fontsize=20)
-    plt.ylabel("Fitness", fontsize=20)
-    plt.tick_params(axis='both', which='major', labelsize=20)
-    plt.title("EA Comparisson", fontsize=20)
-    plt.show()
-    return
-
-def comp_algos_boxplots(experiment_name_1, experiment_name_2):
-    """
-    Comparing two experiments with diffeent EAs
-    
-    experiment_name_1 = name of first experiment to find directory
-    experiment_name_2 = name of second experiment to find directory
-    """
-
-    experiments = [experiment_name_1, experiment_name_2]
-    
-    # Define plot colours (lightblue and lightred)
-    colour = [(0.2, 0.5, 1), (1, 0.5, 0.5)]
-
-    for i in range(2):
-        ind_gains = pd.read_csv(f'./{experiments[i]}/{experiments[i]}_ind_gain.csv',delimiter=",")
-        
-        box = plt.boxplot(ind_gains, positions=[i+1], patch_artist=True,
-            medianprops=dict(color='black'))
-        plt.setp(box["boxes"], facecolor=colour[i])
-    
-
-    # Plot all
-    plt.xlabel("EA",fontsize=15)
-    plt.ylabel("Individual Gain", fontsize=15)
-    plt.tick_params(axis='both', which='major', labelsize=15)
-    plt.xticks([1,2],['Normal', 'Island'])
-    plt.title("EA Comparison", fontsize=15)
-    plt.savefig(pd.to_csv(f'./{experiments[i]}/{experiments[i]}_boxplot.csv',delimiter=","))
-    plt.show()
+    plt.title(f"EA Comparison for Enemy {enemy}", fontsize=20)
+    # ax[0].set_title(f"EA Comparison for Enemy {enemy}", fontsize=20)
+    plt.savefig(f'./{experiments[0]}/EA_comparison_fitness_enemy_{enemy}.jpg', dpi=300)
+    #plt.show()
     return
 
 def tuning_3D_trisurface_plot_max_fitness(parameter_1, parameter_2, name_1, name_2):
