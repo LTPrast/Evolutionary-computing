@@ -16,28 +16,18 @@ Main algorithm files:
 `basic_algorithm.py` contains the basic evolutionary algorithm. <br>
 `island_algorithm.py` contains the central algorithm for the island model. <br>
 
-Methods files:
+Methods files: <br>
 `parent_selection_methods.py` contains functions for the selction of individuals to produce offspring. <br>
 `survival_methods.py` contains the functions to maintain population size and hence delte a certain number of individuals. <br>
 `mutation_recombination_methods.py` contains the functions by which offspring is created given the genome of the parents. <br>
-
-Function files:
 `island_functions.py` contains the functions for the island model responsible for creating offspring and migration. <br>
-`plotting_functions.py`
-
-Result files:
-`create_plots.py`
-`mean_max_csv.py`
-`run_best_ind_gain.py`
-`rename_files.py`
-
 
 ### Analysis files
 The results of the experiments are stored in csv files, the following files were used for analysis of these results: <br>
-plotting_functions.py contains functions to plot results in different ways depending on the application. <br>
-create_plots.py calls upon these functions to create plots. <br>
-mean_max_csv.py proviudes csv files with the final mean and max fitness values of several experiments. <br>
-run_best_ind_gain.py ........................................................................... <br>
+`plotting_functions.py` contains functions to plot results in different ways depending on the application. <br>
+`create_plots.py` calls upon these functions to create plots. <br>
+`mean_max_csv.py` proviudes csv files with the final mean and max fitness values of several experiments. <br>
+`run_best_ind_gain.py` ........................................................................... <br>
 
 ### evoman folder
 This folder contains the evoman framework which should not be altered.
