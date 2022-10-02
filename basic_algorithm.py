@@ -134,13 +134,13 @@ for iteration in range(experiment_iterations):
             if i % 2 == 0:
 
                 child_1, child_2 = simple_arithmetic_recombination(parent_1, parent_2)
-                child_1 = gaussian_mutation(child_1, sigma, dist_std)
-                child_2 = gaussian_mutation(child_2, sigma, dist_std)
+                child_1 = mutation(child_1, sigma, dist_std)
+                child_2 = mutation(child_2, sigma, dist_std)
             
             else: 
 
-                child_1 = gaussian_mutation(parent_1, sigma, dist_std)
-                child_2 = gaussian_mutation(parent_2, sigma, dist_std)
+                child_1 = mutation(parent_1, sigma, dist_std)
+                child_2 = mutation(parent_2, sigma, dist_std)
                 
             
             # append each child to children array
