@@ -29,8 +29,8 @@ The results of the experiments are stored in csv files, the following files were
 `run_best_ind_gain.py` calls the function to plot the individual gain boxplots and runs significance tests <br>
 
 ### Folders
-`evoman` folder contains the evoman framework which should not be altered.
-`Data` folder contains all our tuning and final runs results. It has several subfolders:
+`evoman` folder contains the evoman framework which should not be altered. <br>
+`Data` folder contains all our tuning and final runs results. It has several subfolders: <br>
 - the `Data/trial_island_model_10_runs` folder <br>
 This folder contains the results of a trial run with the island model along with graphs plotting the development of the different islands to develop an intuition for the way the model works. <br>
 - the `Data/tuning/tuning_mutation_distribution` folder <br>
